@@ -1,20 +1,20 @@
 "use client"
 
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import Cookies from 'js-cookie';
+import PageLoader from '../page-loader/PageLoader'
+import api from '@/app/utils/Axios-interceptors'
+import { useRouter } from 'next/navigation'
 
 const DashboardComponent = () => {
-  // /users/get-users/student
 
   const token = Cookies.get('token')
+  const router = useRouter()
 
   const {data, isLoading, isError} = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const { data } = await axios.get('https://test.yamltech.com/users/get-users/student',{
+      const { data } = await api.get('/users/get-users/student',{
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -25,11 +25,20 @@ const DashboardComponent = () => {
     }
   })
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <div>Sorry There was an Error</div>;
+  function logoutAdmin(){
+    Cookies.remove('token')
+    router.replace('/')
+  }
+  // nwaforglory6@gmail.com
+  if (isLoading) return <PageLoader />;
+  if (isError) return <div>Sorry There was an Error</div>
+
 
   return (
-    <div>DashboardComponent</div>
+    <div>
+      <p>DashboardComponent</p>
+      <button onClick={logoutAdmin}>Logout</button>
+    </div>
   )
 }
 

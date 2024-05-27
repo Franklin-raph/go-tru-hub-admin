@@ -22,6 +22,7 @@ const LoginComponent = () => {
     const router = useRouter()
 
     async function handleAdminLogin(values: FieldValues) {
+
       console.log(JSON.stringify({values}));
       
       setLoading(true)
@@ -29,7 +30,7 @@ const LoginComponent = () => {
         method: "POST",
         body: JSON.stringify(values),
         headers: { 
-          "Content-type": "application/json" 
+          "Content-type": "application/json"
         },
         signal: AbortSignal.timeout(10000)
       })
@@ -45,7 +46,7 @@ const LoginComponent = () => {
         
         Cookies.set('token', data.data.access_token);
         // localStorage.setItem('admin', JSON.stringify(data.data))
-        router.push('/dashboard')
+        router.replace('/dashboard')
       }
       console.log(res, data.data);
       reset()
