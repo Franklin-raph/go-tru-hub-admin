@@ -1,19 +1,26 @@
 "use client"
 
-import React, { useState } from 'react'
-import { IoChevronDownOutline } from 'react-icons/io5'
-import { LuScanLine } from "react-icons/lu";
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
-import { PiFileArrowUpThin } from "react-icons/pi";
-import { GoClock } from "react-icons/go";
-import { CiShop } from "react-icons/ci";
-import { BiTargetLock } from "react-icons/bi";
-
 
 
 const SideNav = () => {
 
-  const [tradeDropDown, setTradeDropDown] = useState<Boolean>(false)
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Perform localStorage action in useEffect to ensure it runs on the client side
+      const storedEmail = localStorage.getItem('email');
+      if (storedEmail) {
+        try {
+          setEmail(JSON.parse(storedEmail));
+        } catch (error) {
+          console.error('Error parsing email from localStorage', error);
+        }
+      }
+    }
+  }, []);
 
   // console.log(user);
 
@@ -45,7 +52,7 @@ const SideNav = () => {
             </div>
           </Link>
         </div>
-        <div className="px-[32px] my-10 text-white">
+        {/* <div className="px-[32px] my-10 text-white">
           <p className="text-[12px] text-[#6F7975] mb-2">FEATURES</p>
           <Link href='/monitor' className="flex items-center justify-between py-[10px]">
             <div className="flex items-center">
@@ -101,10 +108,10 @@ const SideNav = () => {
               <p className="">Result</p>
             </div>
           </Link>
-        </div>
+        </div> */}
         <div className="px-[32px] my-10 text-white">
           <p className="text-[12px] text-[#6F7975] mb-2">OTHERS</p>
-          <Link href='/subscribe' className={ location.pathname === '/subscribe' || location.pathname === '/token' || location.pathname === '/sub-summary' || location.pathname.includes('send-token') ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
+          <Link href='/subscription' className={ location.pathname === '/subscription' || location.pathname === '/token' || location.pathname === '/sub-summary' || location.pathname.includes('send-token') ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
             <div className="flex items-center">
               <img src="./images/wallet-active.svg" className="mr-[15.67px]"/>
               <p className="">Subscription</p>
@@ -113,13 +120,13 @@ const SideNav = () => {
           <Link href='/monitor' className="flex items-center justify-between py-[10px]">
             <div className="flex items-center">
                 <img src="./images/notification.svg" className="mr-[15.67px]" alt="" />
-                <p className="">Notification</p>
+                <p className="">Income</p>
             </div>
           </Link>
           <Link href='/monitor' className="flex items-center justify-between py-[10px]">
             <div className="flex items-center">
               <img src="./images/setting.svg" className='mr-[15.67px]' alt="" />
-              <p className="">Account</p>
+              <p className="">Settings</p>
             </div>
           </Link>
         </div>
@@ -138,9 +145,7 @@ const SideNav = () => {
             >
               <img src="/images/avatar.svg"className="w-[50px]" style={{ marginRight: 12, }} />
               <div>
-                <p className="text-[12px] font-[600] text-white" style={{ whiteSpace: "nowrap" }}>
-                  myemail
-                </p>
+                {email ? <p className="text-[12px] font-[600] text-white" style={{ whiteSpace: "nowrap" }}>{email}</p> : <p>No email found</p>}
                 <p className="text-[#6F7975]">Admin</p>
               </div>
             </Link>

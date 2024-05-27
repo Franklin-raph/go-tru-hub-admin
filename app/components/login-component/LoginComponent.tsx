@@ -9,6 +9,11 @@ import Cookies from 'js-cookie';
 
 const LoginComponent = () => {
 
+  // {
+  //   "email": "nwaforglory6@gmail.com",
+  //     "password":"Password#1234"
+  // }
+
   const { register, 
           handleSubmit, 
           formState: { errors, isSubmitting },
@@ -45,7 +50,7 @@ const LoginComponent = () => {
         console.log(data.data);
         
         Cookies.set('token', data.data.access_token);
-        // localStorage.setItem('admin', JSON.stringify(data.data))
+        localStorage.setItem('email', JSON.stringify(data.data.details.email))
         router.replace('/dashboard')
       }
       console.log(res, data.data);

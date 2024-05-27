@@ -8,6 +8,8 @@ import { IoIosLogOut } from "react-icons/io";
 
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import Image, { ImageLoaderProps } from 'next/image';
+import LogoutModal from '../logout-modal/LogoutModal';
 
 
 const TopNav = () => {
@@ -22,10 +24,21 @@ const TopNav = () => {
     router.replace('/')
   }
 
+  const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
+    return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
+  }
+
   return (
     <div className='bg-[#1D2522] flex items-center justify-between w-[100%] py-[1.2rem] top-0 right-0 z-[99] px-5'>
       <div className='flex items-center gap-5'>
-        <img src="./images/admin-profile-icon.png" className='w-[40px] h-[40px] cursor-pointer' alt="" />
+      <Image
+        loader={imageLoader}
+        src="./images/admin-profile-icon.png"
+        width={40}
+        height={40}
+        alt="Picture of the admin"
+      />
+        {/* <img src="" className='w-[40px] h-[40px] cursor-pointer' alt="" /> */}
         <div className='bg-[#C3FAE2] text-[20px] text-[#19201D] w-[40px] h-[40px] flex items-center justify-center cursor-pointer rounded-full'>
           <IoNotificationsOutline />
         </div>
@@ -45,9 +58,9 @@ const TopNav = () => {
           <p>Logout</p>
         </div>
       </div>
-      {/* {
+      {
         logoutModal && <LogoutModal setLogoutModal={setLogoutModal} />
-      } */}
+      }
     </div>
   )
 }
