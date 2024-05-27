@@ -12,7 +12,7 @@ const DashboardComponent = () => {
   const token = Cookies.get('token')
 
   const {data, isLoading, isError} = useQuery({
-    queryKey: ['movies'],
+    queryKey: ['users'],
     queryFn: async () => {
       const { data } = await axios.get('https://test.yamltech.com/users/get-users/student',{
         headers: {
