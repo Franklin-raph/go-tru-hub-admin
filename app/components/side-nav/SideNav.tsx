@@ -3,10 +3,14 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 
+import { usePathname } from 'next/navigation';
+
 
 const SideNav = () => {
 
   const [email, setEmail] = useState<string | null>(null);
+  // const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -22,15 +26,6 @@ const SideNav = () => {
     }
   }, []);
 
-  // console.log(user);
-
-//     setInterval(() => {
-//     fetch('https://api-gotruhub.onrender.com/')
-//         .then(response => response.json())
-//         .then(data => console.log(data))
-//         .catch(error => console.error('Error:', error));
-// }, 180000); // 180000 milliseconds = 3 minutes
-
 
   return (
     <div className='bg-[#19201D] scrollbar w-[22%] h-[100vh] top-0 fixed overflow-y-auto py-5 overflow-x-hidden'>
@@ -39,79 +34,22 @@ const SideNav = () => {
         </div>
         <div className="px-[32px] my-10 text-white">
           <p className="text-[12px] text-[#6F7975] mb-2">MAIN MENU</p>
-          <Link href='/dashboard' className={ location.pathname === '/dashboard' ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
+          <Link href='/dashboard' className={ pathname === '/dashboard' ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
             <div className="flex items-center">
               <img src="./images/dashboard-active.svg" className="mr-[15.67px]"/>
               <p className="">Dashboard</p>
             </div>
           </Link>
-          <Link href='/manage-users' className={ location.pathname === '/manage-users' || location.pathname === '/create-user' || location.pathname.includes('user') || location.pathname.includes('profile-edit') ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
+          <Link href='/manage-users' className={ pathname === '/manage-users' || pathname === '/create-user' || pathname.includes('user') || pathname.includes('profile-edit') ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
             <div className="flex items-center">
                 <img src="./images/manage-users-active.svg" className="mr-[15.67px]" alt="" />
                 <p className="">Manage users</p>
             </div>
           </Link>
         </div>
-        {/* <div className="px-[32px] my-10 text-white">
-          <p className="text-[12px] text-[#6F7975] mb-2">FEATURES</p>
-          <Link href='/monitor' className="flex items-center justify-between py-[10px]">
-            <div className="flex items-center">
-              <img src="./images/scan-white.svg" className="mr-[15.67px]"/>
-              <p className="">Pass</p>
-            </div>
-          </Link>
-
-          <div className="flex flex-col justify-between py-[10px]">
-            <div className="flex items-center justify-between w-full cursor-pointer" onClick={() => setTradeDropDown(!tradeDropDown)}>
-              <div className="flex items-center">
-                  <img src="./images/wallet-active.svg" className="mr-[15.67px]" alt="" />
-                  <p className="">Trade</p>
-              </div>
-              <IoChevronDownOutline color="d7d7d7"/>
-            </div>
-            {tradeDropDown &&
-              <div className='mt-3 ml-4'>
-                <div className='flex items-center gap-2 mb-4'>
-                  <CiShop />
-                  <p className="">Shop</p>
-                </div>
-                <div className='flex items-center gap-2 my-4'>
-                  <img src="./images/wallet-active.svg"/>
-                  <p className="">Wallet</p>
-                </div>
-                <div className='flex items-center gap-2 my-4'>
-                  <img src="./images/orders.svg"/>
-                  <p className="">Orders</p>
-                </div>
-                <div className='flex items-center gap-2 my-4'>
-                  <img src="./images/inventory.svg"/>
-                  <p className="">Inventory</p>
-                </div>
-                <div className='flex items-center gap-2 my-4'>
-                  <img src="./images/clock-1.svg"/>
-                  <p className="">Transaction History</p>
-                </div>
-              </div>
-            }
-          </div>
-
-          <Link href='/monitor' className="flex items-center justify-between py-[10px]">
-            <div className="flex items-center">
-              <LuScanLine color="d7d7d7" className="mr-[15.67px]"/>
-              <p className="">Monitor</p>
-            </div>
-            <IoChevronDownOutline color="d7d7d7"/>
-          </Link>
-          <Link href='/monitor' className="flex items-center justify-between py-[10px]">
-            <div className="flex items-center">
-              <PiFileArrowUpThin color="d7d7d7" className="mr-[15.67px]"/>
-              <p className="">Result</p>
-            </div>
-          </Link>
-        </div> */}
         <div className="px-[32px] my-10 text-white">
           <p className="text-[12px] text-[#6F7975] mb-2">OTHERS</p>
-          <Link href='/subscription' className={ location.pathname === '/subscription' || location.pathname === '/token' || location.pathname === '/sub-summary' || location.pathname.includes('send-token') ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
+          <Link href='/subscription' className={ pathname === '/subscription' || pathname === '/token' || pathname === '/sub-summary' || pathname.includes('send-token') ? `flex items-center justify-between py-[10px] text-[#25751E]` :`flex items-center justify-between py-[10px]`}>
             <div className="flex items-center">
               <img src="./images/wallet-active.svg" className="mr-[15.67px]"/>
               <p className="">Subscription</p>
