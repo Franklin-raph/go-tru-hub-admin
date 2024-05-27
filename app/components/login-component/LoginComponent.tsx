@@ -20,15 +20,6 @@ const LoginComponent = () => {
     // const [password, setPassword] = useState<String>('')
     const [loading, setLoading] = useState<Boolean>(false)
     const router = useRouter()
-    // const admin = JSON.parse(localStorage.getItem('admin') || '{}')
-
-    // useEffect(() => {
-    //   if(admin){
-    //     router.push('/dashboard')
-    //   }else{
-    //     router.push('/')
-    //   }
-    // },[])
 
     async function handleAdminLogin(values: FieldValues) {
       console.log(JSON.stringify({values}));
@@ -39,7 +30,8 @@ const LoginComponent = () => {
         body: JSON.stringify(values),
         headers: { 
           "Content-type": "application/json" 
-        }
+        },
+        signal: AbortSignal.timeout(10000)
       })
       if(res) setLoading(false)
       const data = await res.json()
