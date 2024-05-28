@@ -21,14 +21,10 @@ const LoginComponent = () => {
           getValues
         } = useForm()
 
-    // const [email, setEmail] = useState<String>('')
-    // const [password, setPassword] = useState<String>('')
     const [loading, setLoading] = useState<Boolean>(false)
     const router = useRouter()
 
     async function handleAdminLogin(values: FieldValues) {
-
-      console.log(JSON.stringify({values}));
       
       setLoading(true)
       const res = await fetch(`https://test.yamltech.com/login/organization`, {

@@ -24,6 +24,7 @@ const SideNav = () => {
         }
       }
     }
+    
   }, []);
 
 
@@ -59,6 +60,12 @@ const SideNav = () => {
             <div className="flex items-center">
                 <img src="./images/notification.svg" className="mr-[15.67px]" alt="" />
                 <p className="">Income</p>
+            </div>
+          </Link>
+          <Link href='/features' className="flex items-center justify-between py-[10px]">
+            <div className="flex items-center">
+                <img src="./images/notification.svg" className="mr-[15.67px]" alt="" />
+                <p className="">Features</p>
             </div>
           </Link>
           <Link href='/monitor' className="flex items-center justify-between py-[10px]">
