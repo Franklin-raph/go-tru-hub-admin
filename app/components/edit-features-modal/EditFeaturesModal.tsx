@@ -1,4 +1,4 @@
-import React from 'react'
+"use client"
 import { IoCloseOutline } from 'react-icons/io5'
 
 

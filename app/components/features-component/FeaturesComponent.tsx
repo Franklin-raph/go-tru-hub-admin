@@ -10,12 +10,16 @@ import PageLoader from '../page-loader/PageLoader'
 import { CiEdit } from "react-icons/ci";
 import EditFeaturesModal from '../edit-features-modal/EditFeaturesModal'
 import CreateFeaturesModal from '../create-features-modal/CreateFeaturesModal'
+import { IoIosTrash } from "react-icons/io";
+import DeleteFeaturesModal from '../delete-features-modal/DeleteFeaturesModal'
+
 
 
 const FeaturesComponent = () => {
-    const router = useRouter()
+    
     const [eidtFeatureModal, setEditFeaturesModal] = useState<Boolean>(false)
     const [createFeatureModal, setCreateFeaturesModal] = useState<Boolean>(false)
+    const [deleteFeatureModal, setDeleteFeaturesModal] = useState<Boolean>(false)
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['features'],
@@ -59,7 +63,6 @@ const FeaturesComponent = () => {
                                 <th scope="col" className="px-6 py-3 font-[700]">Feature name</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Edit</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Delete</th>
-                                
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +73,10 @@ const FeaturesComponent = () => {
                                             <td className="px-6 py-4">{index +1}</td>
                                             <td className="px-6 py-4">{feature.name}</td>
                                             <td className="px-6 py-4">
-                                                <CiEdit className="text-[#2D3934] cursor-pointer" onClick={() => setEditFeaturesModal(feature)}/>
+                                                <CiEdit className="text-[#2D3934] cursor-pointer text-[22px]" onClick={() => setEditFeaturesModal(feature)}/>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <IoIosTrash  className="text-red-500 cursor-pointer text-[22px]" onClick={() => setDeleteFeaturesModal(feature)}/>
                                             </td>
                                         </tr>
                                     )
@@ -89,6 +95,11 @@ const FeaturesComponent = () => {
         {
             createFeatureModal &&
             <CreateFeaturesModal setCreateFeaturesModal={setCreateFeaturesModal} />
+        }
+
+        {
+            deleteFeatureModal &&
+            <DeleteFeaturesModal setDeleteFeaturesModal={setDeleteFeaturesModal} deleteFeatureModal={deleteFeatureModal} />
         }
     </div>
   )

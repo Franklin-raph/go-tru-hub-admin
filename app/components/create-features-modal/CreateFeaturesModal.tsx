@@ -3,10 +3,8 @@
 import api from '@/app/utils/Axios-interceptors'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { IoCloseOutline } from 'react-icons/io5'
-import { SiTruenas } from 'react-icons/si'
 import { z } from 'zod'
 import BtnLoader from '../btn-Loader/BtnLoader'
 
