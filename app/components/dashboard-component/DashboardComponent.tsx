@@ -10,7 +10,6 @@ import TopNav from '../top-nav/TopNav';
 
 const DashboardComponent = () => {
 
-  const token = Cookies.get('token')
   const router = useRouter()
 
   const {data, isLoading, isError} = useQuery({
