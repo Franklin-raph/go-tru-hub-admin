@@ -14,7 +14,11 @@ const createFeatureSchema = z.object({
 
 type TCreateFeatureSchema = z.infer<typeof createFeatureSchema>;
 
-const CreateFeaturesModal = ({ setCreateFeaturesModal }: any) => {
+type CreateFeaturesModalProps = {
+    setCreateFeaturesModal: any
+}
+
+const CreateFeaturesModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProps) => {
     const {
         register, 
         handleSubmit, 
@@ -64,7 +68,7 @@ const CreateFeaturesModal = ({ setCreateFeaturesModal }: any) => {
                         mutation.isPending ?
                         <BtnLoader />
                         :
-                        <button type='submit' disabled={isSubmitting} className='mt-5 bg-secondary-color w-full text-white py-1 rounded'>Create Feature</button>
+                        <button type='submit' disabled={isSubmitting} className='mt-5 bg-secondary-color w-full text-white py-[8px] rounded'>Create Feature</button>
                     }
                     {mutation.isError && <p className='text-red-500 text-[14px] text-left mt-1'>Error creating feature</p>}
                 </form>

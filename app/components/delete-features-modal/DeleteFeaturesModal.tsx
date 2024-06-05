@@ -1,7 +1,29 @@
+"use client"
+
+import api from '@/app/utils/Axios-interceptors';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 
 const DeleteFeaturesModal = ({ setDeleteFeaturesModal, deleteFeatureModal } : any ) => {
+
+  const queryClient = useQueryClient();
+
+  const deleteFeature = async (id: string): Promise<void> => {
+    await api.delete(`/api/features/${id}`);
+  };
+
+  const mutation = useMutation(deleteFeature, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['features'] });
+        setDeleteFeaturesModal(false);
+    },
+  });
+
+  const handleDelete = () => {
+    mutation.mutate(deleteFeatureModal.id);
+  };
+
   return (
     <div>
         <div className="h-full w-full fixed top-0 left-0 z-[99]" style={{ background:"rgba(14, 14, 14, 0.58)" }} onClick={() => setDeleteFeaturesModal(false)}></div>
@@ -12,7 +34,7 @@ const DeleteFeaturesModal = ({ setDeleteFeaturesModal, deleteFeatureModal } : an
             </div>
             <div className='text-center flex items-center justify-center flex-col'>
                 <p className='mt-5'>Are you sure you want to delete {deleteFeatureModal.name} feature?</p>
-                <button className='mt-5 bg-secondary-color w-full text-white py-1 rounded'>Yes, delete</button>
+                <button className='mt-5 bg-secondary-color w-full text-white py-2 rounded' onClick={handleDelete}>Yes, delete</button>
             </div>
         </div>
     </div>

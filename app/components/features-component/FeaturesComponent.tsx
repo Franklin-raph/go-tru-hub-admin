@@ -12,6 +12,7 @@ import EditFeaturesModal from '../edit-features-modal/EditFeaturesModal'
 import CreateFeaturesModal from '../create-features-modal/CreateFeaturesModal'
 import { IoIosTrash } from "react-icons/io";
 import DeleteFeaturesModal from '../delete-features-modal/DeleteFeaturesModal'
+import CreateFeatureModal from '../create-feature-modal/CreateFeatureModal'
 
 
 
@@ -94,7 +95,7 @@ const FeaturesComponent = () => {
 
         {
             createFeatureModal &&
-            <CreateFeaturesModal setCreateFeaturesModal={setCreateFeaturesModal} />
+            <CreateFeatureModal setCreateFeaturesModal={setCreateFeaturesModal} />
         }
 
         {

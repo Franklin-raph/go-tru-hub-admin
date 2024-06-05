@@ -16,7 +16,6 @@ const TopNav = () => {
 
   const [logoutModal, setLogoutModal] = useState<Boolean>(false)
 
-  const token = Cookies.get('token')
   const router = useRouter()
 
   function logoutAdmin(){
