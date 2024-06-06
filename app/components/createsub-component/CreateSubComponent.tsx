@@ -1,32 +1,72 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import SideNav from '../side-nav/SideNav'
 import TopNav from '../top-nav/TopNav'
 import api from '@/app/utils/Axios-interceptors'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import PageLoader from '../page-loader/PageLoader'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import BtnLoader from '../btn-Loader/BtnLoader'
 
-// Define the type for the feature
 type FeatureType = {
-    id: number;
+    _id: number;
     name: string;
-    // Add other properties if needed
 };
 
 const CreateSubComponent = () => {
 
-    // const [allFeatures, setAllFeatures] = useState([])
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+    } = useForm()
+
+    const [features, setFeatures] = useState<string[]>([]);
+
+    const router = useRouter()
+
+      // Handler for the dropdown change event
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = event.target.value;
+    if (!features.includes(selectedId)) {
+        setFeatures([...features, selectedId]);
+    }
+  };
 
     const getAllFeatures = async () => {
         const { data } = await api.get('/features')
-        console.log(data.data);
         return data.data
     }
 
-    const { data, isLoading: featuresLoading, isError: featuresError } = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['features'],
         queryFn: getAllFeatures,
     });
+
+    const mutation = useMutation({
+        mutationFn: async (values: any) => {
+            const { data } = await api.post('/subscriptions', {...values, features:features});
+            console.log(data);
+            
+            return data;
+        },
+        onSuccess: () => {
+            router.replace('/subscription')
+        },
+        onError: (error) => {
+            console.error('Error creating subscription plan:', error);
+        },
+    })
+
+    const createSubPlan = async (values: any) => {
+        mutation.mutate(values);
+    };
+
+    if (isLoading) return <PageLoader />;
+    if (isError) return <div>Sorry There was an Error</div>
 
   return (
     <div>
@@ -38,61 +78,57 @@ const CreateSubComponent = () => {
                     <div className="flex items-center justify-between mb-[3rem]">
                         <div>
                             <p className="text-[28px] text-primary-color font-[600]">Create Plan</p>
-                            {/* <p className='text-[#828282]'>Your current pricing system is set to,</p> */}
                         </div>
                         <div className="flex items-center gap-3">
-                            {/* <button  className="py-3 px-4 bg-[#FFFFFF] rounded-[8px] text-[14px] font-[600] shadow-md" onClick={() => router.replace('/subscription')} >Contract plan</button>
-                            <button className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] font-[600] text-[14px]" onClick={() => router.replace('/create-sub')}>Create Plan</button> */}
                         </div>
                     </div>
                 </div>
-                <form className="max-w-xl mx-auto p-4">
+                <form onSubmit={handleSubmit(createSubPlan)} className="max-w-xl mx-auto p-4">
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Plan name</label>
                         <input
-                        type="text"
-                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            {...register('name', { required: true })}
+                            type="text"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
+                        {errors.name && <span className='text-red-500 block text-[12px]'>This field is required</span>}
                     </div>
 
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Feature(s)</label>
-                        <select
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        >
-                            {
-                                data?.map((feature: FeatureType, index: number) => (
-                                    <option key={index} value={feature.name}>{feature.name}</option>
-                                ))
-                            }
-                        {/* <option value="GotruPass">GotruPass</option> */}
-                        {/* Add more options as needed */}
+                        <select onChange={handleSelectChange} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            {data?.map((feature: FeatureType, index: number) => (
+                            <option key={feature._id} value={feature._id}>
+                                {feature.name}
+                            </option>
+                            ))}
                         </select>
                     </div>
 
                     <div className="mb-4 flex space-x-4">
                         <div className="flex-1">
-                        <label className="block text-sm font-medium text-gray-700">Duration</label>
-                        <select
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        >
-                            <option value="Monthly">Monthly</option>
-                            {/* Add more options as needed */}
-                        </select>
+                            <label className="block text-sm font-medium text-gray-700">Duration</label>
+                            <select
+                            {...register('duration', { required: true })}
+                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="14-weeks">14 weeks</option>
+                            </select>
+                            {errors.duration && <span className='text-red-500 block text-[12px]'>This field is required</span>}
                         </div>
 
                         <div className="flex-1">
-                        <label className="block text-sm font-medium text-gray-700">Plan validity</label>
-                        <div className="flex space-x-2">
-                            <input
-                            type="number"
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
-                            <select className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="Days">Days</option>
-                            {/* Add more options as needed */}
-                            </select>
-                        </div>
+                            <label className="block text-sm font-medium text-gray-700">Plan validity</label>
+                            <div className="flex space-x-2">
+                                <input
+                                    type="number"
+                                    {...register('planValidity', { required: true })}
+                                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                            {errors.planValidity && <span className='text-red-500 block text-[12px]'>This field is required</span>}
                         </div>
                     </div>
 
@@ -101,8 +137,10 @@ const CreateSubComponent = () => {
                         <label className="block text-sm font-medium text-gray-700">Amount</label>
                         <input
                             type="number"
+                            {...register('amount', { required: true })}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
+                        {errors.amount && <span className='text-red-500 block text-[12px]'>This field is required</span>}
                         </div>
                         <div className="text-xl mt-6">₦</div>
                     </div>
@@ -110,18 +148,26 @@ const CreateSubComponent = () => {
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Description (120 characters)</label>
                         <textarea
+                        {...register('description', { required: true })}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         maxLength={120}
                         />
+                        {errors.description && <span className='text-red-500 block text-[12px]'>This field is required</span>}
                     </div>
 
                     <div className="flex justify-end">
-                        <button
-                        type="submit"
-                        className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                        Create plan
-                        </button>
+                        {
+                            mutation.isPending?
+                            <BtnLoader />
+                                :
+                            <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                            Create plan
+                            </button>
+                        }
                     </div>
                 </form>
             </div>

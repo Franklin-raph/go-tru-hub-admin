@@ -1,27 +1,26 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import SideNav from '../side-nav/SideNav'
 import TopNav from '../top-nav/TopNav'
 import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/app/utils/Axios-interceptors'
 import PageLoader from '../page-loader/PageLoader'
+import { IoIosTrash } from 'react-icons/io'
+import { CiEdit } from 'react-icons/ci'
 
 const SubscriptionComponent = () => {
 
     const router = useRouter()
-
-    const getAllFeatures = async () => {
-        const { data } = await api.get('/features')
-        console.log(data);
-        return data
-    }
+    const [eidtFeatureModal, setEditFeaturesModal] = useState<Boolean>(false)
+    const [createFeatureModal, setCreateFeaturesModal] = useState<Boolean>(false)
+    const [deleteFeatureModal, setDeleteFeaturesModal] = useState<Boolean>(false)
 
     const getAllSubs = async () => {
         const { data } = await api.get('/subscriptions')
         console.log(data);
-        return data
+        return data.data
     }
 
     const { data: allSubs, isLoading: subLoading, isError: subError } = useQuery({
@@ -29,10 +28,6 @@ const SubscriptionComponent = () => {
         queryFn: getAllSubs,
     });
 
-    const { data: allFeatures, isLoading: featuresLoading, isError: featuresError } = useQuery({
-        queryKey: ['features'],
-        queryFn: getAllSubs,
-    });
 
     // const {data, isLoading, isError} = useQuery({
     //     queryKey: ['subscriptions'],
@@ -63,6 +58,36 @@ const SubscriptionComponent = () => {
                             <button className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] font-[600] text-[14px]" onClick={() => router.replace('/create-sub')}>Create Plan</button>
                         </div>
                     </div>
+                </div>
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-left">
+                        <thead className="text-[14px] border-b">
+                            <tr>
+                                <th scope="col" className="px-6 py-3 th1 font-[700]">S/N</th>
+                                <th scope="col" className="px-6 py-3 font-[700]">Plan</th>
+                                <th scope="col" className="px-6 py-3 font-[700]">Plan Duration</th>
+                                <th scope="col" className="px-6 py-3 font-[700]">Plan Validity</th>
+                                <th scope="col" className="px-6 py-3 font-[700]">View Plan Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                allSubs && allSubs.map((plan: any, index: number) => {
+                                    return(
+                                        <tr style={{borderBottom:"1px solid #dcdcdc"}} key={index}>
+                                            <td className="px-6 py-4">{index +1}</td>
+                                            <td className="px-6 py-4">{plan.name}</td>
+                                            <td className="px-6 py-4">{plan.duration}</td>
+                                            <td className="px-6 py-4">{plan.planValidity}</td>
+                                            <td className="px-6 py-4">
+                                                <button onClick={() => router.replace(`subscription/${plan._id}`)} className='bg-gray-400 px-3 py-2 rounded-[5px] text-white'>View</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </>
