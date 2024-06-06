@@ -32,7 +32,6 @@ const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProp
     const mutation = useMutation({
         
         mutationFn: async (values: any) => {
-            console.log();
             const { data } = await api.post('/features', { name: values.name });
             return data;
         },

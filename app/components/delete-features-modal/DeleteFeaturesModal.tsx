@@ -4,19 +4,24 @@ import api from '@/app/utils/Axios-interceptors';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
+import BtnLoader from '../btn-Loader/BtnLoader';
 
 const DeleteFeaturesModal = ({ setDeleteFeaturesModal, deleteFeatureModal } : any ) => {
 
   const queryClient = useQueryClient();
 
-  const deleteFeature = async (id: string): Promise<void> => {
-    await api.delete(`/api/features/${id}`);
+  const deleteFeature = async (): Promise<void> => {
+    await api.delete(`/features/${deleteFeatureModal._id}`);
   };
 
-  const mutation = useMutation(deleteFeature, {
+  const mutation = useMutation({
+    mutationFn: deleteFeature,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['features'] });
         setDeleteFeaturesModal(false);
+    },
+    onError: (error) => {
+      console.error('Error deleting feature:', error);
     },
   });
 
@@ -34,7 +39,12 @@ const DeleteFeaturesModal = ({ setDeleteFeaturesModal, deleteFeatureModal } : an
             </div>
             <div className='text-center flex items-center justify-center flex-col'>
                 <p className='mt-5'>Are you sure you want to delete {deleteFeatureModal.name} feature?</p>
-                <button className='mt-5 bg-secondary-color w-full text-white py-2 rounded' onClick={handleDelete}>Yes, delete</button>
+                {
+                    mutation.isPending ?
+                    <BtnLoader />
+                    :
+                    <button className='mt-5 bg-secondary-color w-full text-white py-2 rounded' onClick={handleDelete}>Yes, delete</button>
+                }
             </div>
         </div>
     </div>

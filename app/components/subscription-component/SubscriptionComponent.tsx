@@ -12,18 +12,39 @@ const SubscriptionComponent = () => {
 
     const router = useRouter()
 
-    const {data, isLoading, isError} = useQuery({
-        queryKey: ['subscriptions'],
-        queryFn: async () => {
-            const { data } = await api.get('/subscriptions')
-            console.log(data);
-            
-            return data
-        }
-    })
+    const getAllFeatures = async () => {
+        const { data } = await api.get('/features')
+        console.log(data);
+        return data
+    }
 
-    if (isLoading) return <PageLoader />;
-    if (isError) return <div>Sorry There was an Error</div>
+    const getAllSubs = async () => {
+        const { data } = await api.get('/subscriptions')
+        console.log(data);
+        return data
+    }
+
+    const { data: allSubs, isLoading: subLoading, isError: subError } = useQuery({
+        queryKey: ['subscriptions'],
+        queryFn: getAllSubs,
+    });
+
+    const { data: allFeatures, isLoading: featuresLoading, isError: featuresError } = useQuery({
+        queryKey: ['features'],
+        queryFn: getAllSubs,
+    });
+
+    // const {data, isLoading, isError} = useQuery({
+    //     queryKey: ['subscriptions'],
+    //     queryFn: async () => {
+    //         const { data } = await api.get('/subscriptions')
+    //         console.log(data);
+    //         return data
+    //     }
+    // })
+
+    // if (isLoading) return <PageLoader />;
+    // if (isError) return <div>Sorry There was an Error</div>
 
   return (
     <div>

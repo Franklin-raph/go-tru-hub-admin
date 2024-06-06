@@ -1,10 +1,26 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import SideNav from '../side-nav/SideNav'
 import TopNav from '../top-nav/TopNav'
+import api from '@/app/utils/Axios-interceptors'
+import { useQuery } from '@tanstack/react-query'
 
 const CreateSubComponent = () => {
+
+    // const [allFeatures, setAllFeatures] = useState([])
+
+    const getAllFeatures = async () => {
+        const { data } = await api.get('/features')
+        console.log(data.data);
+        return data.data
+    }
+
+    const { data: allFeatures, isLoading: featuresLoading, isError: featuresError } = useQuery({
+        queryKey: ['features'],
+        queryFn: getAllFeatures,
+    });
+
   return (
     <div>
         <>
@@ -35,9 +51,14 @@ const CreateSubComponent = () => {
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Feature(s)</label>
                         <select
-                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
-                        <option value="GotruPass">GotruPass</option>
+                            {
+                                allFeatures && allFeatures?.map((feature, index) => (
+                                    <option key={index} value={feature.name}>{feature.name}</option>
+                                ))
+                            }
+                        {/* <option value="GotruPass">GotruPass</option> */}
                         {/* Add more options as needed */}
                         </select>
                     </div>
