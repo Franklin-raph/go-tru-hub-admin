@@ -6,6 +6,13 @@ import TopNav from '../top-nav/TopNav'
 import api from '@/app/utils/Axios-interceptors'
 import { useQuery } from '@tanstack/react-query'
 
+// Define the type for the feature
+type FeatureType = {
+    id: number;
+    name: string;
+    // Add other properties if needed
+};
+
 const CreateSubComponent = () => {
 
     // const [allFeatures, setAllFeatures] = useState([])
@@ -16,7 +23,7 @@ const CreateSubComponent = () => {
         return data.data
     }
 
-    const { data: allFeatures, isLoading: featuresLoading, isError: featuresError } = useQuery({
+    const { data, isLoading: featuresLoading, isError: featuresError } = useQuery({
         queryKey: ['features'],
         queryFn: getAllFeatures,
     });
@@ -54,7 +61,7 @@ const CreateSubComponent = () => {
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             {
-                                allFeatures && allFeatures?.map((feature, index) => (
+                                data?.map((feature: FeatureType, index: number) => (
                                     <option key={index} value={feature.name}>{feature.name}</option>
                                 ))
                             }
