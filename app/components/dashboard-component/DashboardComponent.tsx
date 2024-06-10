@@ -28,59 +28,56 @@ const DashboardComponent = () => {
     <div>
       <>
         <SideNav />
-        <div className="w-[78%] bg-[#F2FCF7] ml-auto h-[100dvh]">
+        <div className="w-[78%] ml-auto h-[100dvh]">
           <TopNav />
-            <div className="px-[30px] py-[1rem]">
-              <div className="flex items-center justify-between mb-[3rem]">
+            <div className="bg-white">
+              <div className="flex items-center justify-between mb-[1rem] px-[30px] py-[1rem] bg-[#F2FCF7]">
                 <p className="text-[28px] text-primary-color font-[600]">Dashboard</p>
                 <div className="flex items-center gap-3">
-                  <button  className="py-3 px-4 border border-[#1D1D1D] rounded-[8px] text-[14px]" onClick={() => router.replace('/subscription')} >Subscribe</button>
-                  <button className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] text-[14px]">Create User</button>
+                  <button  className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] text-[14px]" onClick={() => router.replace('/subscription')} >Subscription</button>
+                  {/* <button className="">Create User</button> */}
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-5 bg-white px-5 py-5 rounded-[12px]">
-                <div className="border-r pr-5">
+              <div className="grid grid-cols-3 gap-5 px-5 py-5 rounded-[12px]">
+                <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
                   <div className="flex items-center justify-between mb-5">
-                    <p className="text-[#4F4F4F]">Incoming</p>
-                    <img src="./images/in-coming.svg" alt="" />
+                    <p className="text-[#4F4F4F] font-[600]">Institutions</p>
+                    <div className='bg-[#23AEAE] p-2 rounded-full'>
+                      <img src="./images/buildings.svg" alt="" />
+                    </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#250,000,500</p>
+                  <p className="font-[600] text-text-color text-[24px]">250</p>
                   <div className="flex items-center mt-2">
                     <img src="./images/arrow-up.svg" alt="" />
                     <p className="text-[#25751E] text-[12px]">+15% this week</p>
                   </div>
                 </div>
-                <div className="border-r pr-5">
+
+                <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
                   <div className="flex items-center justify-between mb-5">
-                    <p className="text-[#4F4F4F]">Outgoing</p>
-                    <img src="./images/out-going.svg" alt="" />
+                    <p className="text-[#4F4F4F] font-[600]">Active subscription</p>
+                    <div className='bg-[#23AEAE] p-2 rounded-full'>
+                      <img src="./images/card-tick.svg" alt="" />
+                    </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#150,000</p>
-                  <div className="flex items-center mt-2">
-                    <img src="./images/arrow-down.svg" alt="" />
-                    <p className="text-[#9A2525] text-[12px]">-15% this week</p>
-                  </div>
-                </div>
-                <div className="border-r pr-5">
-                  <div className="flex items-center justify-between mb-5">
-                    <p className="text-[#4F4F4F]">Stock</p>
-                    <img src="./images/stock.svg" alt="" />
-                  </div>
-                  <p className="font-[600] text-text-color text-[24px]">40</p>
+                  <p className="font-[600] text-text-color text-[24px]">250</p>
                   <div className="flex items-center mt-2">
                     <img src="./images/arrow-up.svg" alt="" />
-                    <p className="text-[#25751E] text-[12px]">+10% this week</p>
+                    <p className="text-[#25751E] text-[12px]">+15% this week</p>
                   </div>
                 </div>
-                <div className="">
+
+                <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
                   <div className="flex items-center justify-between mb-5">
-                    <p className="text-[#4F4F4F]">Members</p>
-                    <img src="./images/members.svg" alt="" />
+                    <p className="text-[#4F4F4F] font-[600]">Subscription revenue</p>
+                    <div className='bg-[#23AEAE] p-2 rounded-full'>
+                      <img src="./images/card-tick.svg" alt="" />
+                    </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">150,000</p>
+                  <p className="font-[600] text-text-color text-[24px]">#250,000,000</p>
                   <div className="flex items-center mt-2">
                     <img src="./images/arrow-up.svg" alt="" />
-                    <p className="text-[#25751E] text-[12px]">+1% this week</p>
+                    <p className="text-[#25751E] text-[12px]">+15% this week</p>
                   </div>
                 </div>
               </div>

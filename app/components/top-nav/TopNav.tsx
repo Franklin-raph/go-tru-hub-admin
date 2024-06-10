@@ -30,13 +30,13 @@ const TopNav = () => {
   return (
     <div className='bg-[#1D2522] flex items-center justify-between w-[100%] py-[1.2rem] top-0 right-0 z-[99] px-5'>
       <div className='flex items-center gap-5'>
-      <Image
+      {/* <Image
         loader={imageLoader}
         src="./images/admin-profile-icon.png"
         width={40}
         height={40}
         alt="Picture of the admin"
-      />
+      /> */}
         {/* <img src="" className='w-[40px] h-[40px] cursor-pointer' alt="" /> */}
         <div className='bg-[#C3FAE2] text-[20px] text-[#19201D] w-[40px] h-[40px] flex items-center justify-center cursor-pointer rounded-full'>
           <IoNotificationsOutline />
