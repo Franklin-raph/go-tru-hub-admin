@@ -27,7 +27,7 @@ const LoginComponent = () => {
     async function handleAdminLogin(values: FieldValues) {
       
       setLoading(true)
-      const res = await fetch(`https://test.yamltech.com/login/organization`, {
+      const res = await fetch(`https://test.yamltech.com/sign-in/admin`, {
         method: "POST",
         body: JSON.stringify(values),
         headers: { 

@@ -6,37 +6,35 @@ import TopNav from '../top-nav/TopNav'
 import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/app/utils/Axios-interceptors'
+import PageLoader from '../page-loader/PageLoader'
 
 const SubscriptionComponent = () => {
 
     const router = useRouter()
-    const [eidtFeatureModal, setEditFeaturesModal] = useState<Boolean>(false)
-    const [createFeatureModal, setCreateFeaturesModal] = useState<Boolean>(false)
-    const [deleteFeatureModal, setDeleteFeaturesModal] = useState<Boolean>(false)
+    
+    // const getAllSubs = async () => {
+    //     const { data } = await api.get('/subscriptions')
+    //     console.log(data);
+    //     return data.data
+    // }
 
-    const getAllSubs = async () => {
-        const { data } = await api.get('/subscriptions')
-        console.log(data);
-        return data.data
-    }
-
-    const { data: allSubs, isLoading: subLoading, isError: subError } = useQuery({
-        queryKey: ['subscriptions'],
-        queryFn: getAllSubs,
-    });
-
-
-    // const {data, isLoading, isError} = useQuery({
+    // const { data: allSubs, isLoading: subLoading, isError: subError } = useQuery({
     //     queryKey: ['subscriptions'],
-    //     queryFn: async () => {
-    //         const { data } = await api.get('/subscriptions')
-    //         console.log(data);
-    //         return data
-    //     }
-    // })
+    //     queryFn: getAllSubs,
+    // });
 
-    // if (isLoading) return <PageLoader />;
-    // if (isError) return <div>Sorry There was an Error</div>
+
+    const {data, isLoading, isError} = useQuery({
+        queryKey: ['subscriptions'],
+        queryFn: async () => {
+            const { data } = await api.get('/subscriptions')
+            console.log(data);
+            return data.data
+        }
+    })
+
+    if (isLoading) return <PageLoader />;
+    if (isError) return <div>Sorry There was an Error</div>
 
   return (
     <div>
@@ -69,7 +67,7 @@ const SubscriptionComponent = () => {
                         </thead>
                         <tbody>
                             {
-                                allSubs && allSubs.map((plan: any, index: number) => {
+                                data.map((plan: any, index: number) => {
                                     return(
                                         <tr style={{borderBottom:"1px solid #dcdcdc"}} key={index}>
                                             <td className="px-6 py-4">{index +1}</td>

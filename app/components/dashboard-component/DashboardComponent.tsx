@@ -12,16 +12,16 @@ const DashboardComponent = () => {
 
   const router = useRouter()
 
-  const {data, isLoading, isError} = useQuery({
-    queryKey: ['users'],
-    queryFn: async () => {
-      const { data } = await api.get('/users/get-users/student')
-      return data
-    }
-  })
+  // const {data, isLoading, isError} = useQuery({
+  //   queryKey: ['users'],
+  //   queryFn: async () => {
+  //     const { data } = await api.get('/users/get-users/student')
+  //     return data
+  //   }
+  // })
   
-  if (isLoading) return <PageLoader />;
-  if (isError) return <div>Sorry There was an Error</div>
+  // if (isLoading) return <PageLoader />;
+  // if (isError) return <div>Sorry There was an Error</div>
 
 
   return (
