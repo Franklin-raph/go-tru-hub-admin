@@ -41,9 +41,8 @@ const SubInfo = () => {
     const router = useRouter()
     let id = pathName.split('/')
 
-    const [features, setFeatures] = useState<string[]>([])
+    const [selectedFeatures, setSelectedFeatures] = useState<FeatureType[]>([])
     const [featureDropDown, setFeatureDropDown] = useState<boolean>(false)
-    const [feature, setFeature] = useState<string>('')
     const queryClient = useQueryClient()
 
     const { data, isLoading, isError } = useQuery<SubscriptionData>({
@@ -63,7 +62,7 @@ const SubInfo = () => {
                 planValidity: data.planValidity,
                 description: data.description,
             })
-            setFeature(data.feature[0]?.name)
+            setSelectedFeatures(data.feature)
         }
     }, [data, reset])
 
@@ -84,7 +83,7 @@ const SubInfo = () => {
     const mutation = useMutation({
         mutationFn: deleteFeature,
         onSuccess: () => {
-            router.replace('/subscriptions')
+            router.replace('/subscription')
         },
         onError: (error) => {
             console.error('Error deleting feature:', error)
@@ -95,16 +94,16 @@ const SubInfo = () => {
         mutation.mutate()
     }
 
-    const handleSelectChange = (value: FeatureType) => {
+    const handleSelectChange = (feature: FeatureType) => {
         setFeatureDropDown(false)
-        setFeature(value.name)
-        if (!features.includes(value._id.toString())) {
-            setFeatures([...features, value._id.toString()])
+        if (!selectedFeatures.find(f => f._id === feature._id)) {
+            setSelectedFeatures([...selectedFeatures, feature])
         }
     }
 
     const updateSub: SubmitHandler<FormValues> = async (values) => {
-        const res = await api.put(`/subscriptions/${id[2]}`, { ...values, features })
+        const featureIds = selectedFeatures.map(f => f._id)
+        const res = await api.put(`/subscriptions/${id[2]}`, { ...values, features: featureIds })
         if (res.data) {
             router.replace('/subscription')
         }
@@ -157,12 +156,12 @@ const SubInfo = () => {
                         <div className="mb-4 relative">
                             <label className="block text-sm font-medium text-gray-700">Feature(s)</label>
                             <div className='flex items-center justify-between w-full py-[6px] px-[6px] border rounded-[6px] mt-1'>
-                                <p>{feature}</p>
+                                <p>{selectedFeatures.map(f => f.name).join(', ')}</p>
                                 <IoChevronDown onClick={() => setFeatureDropDown(!featureDropDown)} cursor={'pointer'} />
                             </div>
                             {
                                 featureDropDown &&
-                                <div className='w-full py-1 px-[6px] border rounded-[6px] mt-1 absolute bg-white'>
+                                <div className='w-full py-1 px-[6px] border rounded-[6px] mt-1 absolute bg-white z-10'>
                                     {featuresData?.map((feature: FeatureType) => (
                                         <p key={feature._id} className='cursor-pointer' onClick={() => {
                                             handleSelectChange(feature)
