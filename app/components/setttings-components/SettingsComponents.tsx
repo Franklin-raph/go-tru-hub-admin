@@ -30,10 +30,11 @@ const SettingsComponents = () => {
 
     const [loading, setLoading] = useState<Boolean>(false)
 
+    
+    async function handleAdminPasswordReset(values: FieldValues) {
     // Watch the newPassword field to validate against confirmPassword
     const newPassword = watch('newPassword')
-
-    async function handleAdminPasswordReset(values: FieldValues) {
+    
     console.log(values)
         setLoading(true)
         const res = await fetch(`https://test.yamltech.com/admin/dashboard/change-password`, {
