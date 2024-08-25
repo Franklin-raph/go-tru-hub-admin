@@ -1,57 +1,33 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import SideNav from '../side-nav/SideNav'
-import TopNav from '../top-nav/TopNav'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from '@/app/utils/Axios-interceptors'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import PageLoader from '../page-loader/PageLoader'
-import { IoChevronDown } from "react-icons/io5"
-
-type FeatureType = {
-    _id: number;
-    name: string;
-}
-
-type SubscriptionData = {
-    name: string;
-    amount: {
-        $numberDecimal: string;
-    };
-    duration: string;
-    feature: FeatureType[];
-    planValidity: number;
-    description: string;
-}
-
-type FormValues = {
-    name: string;
-    amount: string;
-    duration: string;
-    planValidity: number;
-    description: string;
-}
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import SideNav from '../side-nav/SideNav';
+import TopNav from '../top-nav/TopNav';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import api from '@/app/utils/Axios-interceptors';
+import { useForm } from 'react-hook-form';
+import PageLoader from '../page-loader/PageLoader';
+import { IoChevronDown } from "react-icons/io5";
+import BtnLoader from '../btn-Loader/BtnLoader'
 
 const SubInfo = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const pathName = usePathname();
+    const router = useRouter();
+    const id = pathName.split('/')[2];
 
-    const pathName = usePathname()
-    const router = useRouter()
-    let id = pathName.split('/')
+    const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
+    const [featureDropDown, setFeatureDropDown] = useState(false);
 
-    const [selectedFeatures, setSelectedFeatures] = useState<FeatureType[]>([])
-    const [featureDropDown, setFeatureDropDown] = useState<boolean>(false)
-    const queryClient = useQueryClient()
-
-    const { data, isLoading, isError } = useQuery<SubscriptionData>({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['subInfo'],
         queryFn: async () => {
-            const response = await api.get(`/subscriptions/${id[2]}`)
-            return response.data.data
+            const response = await api.get(`/subscriptions/${id}`);
+            return response.data.data;
         },
-    })
+    });
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (data) {
@@ -61,56 +37,51 @@ const SubInfo = () => {
                 duration: data.duration,
                 planValidity: data.planValidity,
                 description: data.description,
-            })
-            setSelectedFeatures(data.feature)
+            });
+            setSelectedFeatureIds(data.feature.map(f => f._id));
         }
-    }, [data, reset])
+    }, [data, reset]);
 
-    const getAllFeatures = async () => {
-        const response = await api.get('/features')
-        return response.data.data
-    }
-
-    const { data: featuresData, isLoading: featuresLoader, isError: featuresError } = useQuery<FeatureType[]>({
+    const { data: featuresData, isLoading: featuresLoader, isError: featuresError } = useQuery({
         queryKey: ['features'],
-        queryFn: getAllFeatures,
-    })
-
-    const deleteFeature = async (): Promise<void> => {
-        await api.delete(`/subscriptions/${id[2]}`)
-    }
-
-    const mutation = useMutation({
-        mutationFn: deleteFeature,
-        onSuccess: () => {
-            router.replace('/subscription')
+        queryFn: async () => {
+            const response = await api.get('/features');
+            return response.data.data;
         },
-        onError: (error) => {
-            console.error('Error deleting feature:', error)
-        },
-    })
+    });
 
-    const handleDelete = () => {
-        mutation.mutate()
-    }
+    const handleCheckboxChange = (event) => {
+        const selectedId = event.target.value;
 
-    const handleSelectChange = (feature: FeatureType) => {
-        setFeatureDropDown(false)
-        if (!selectedFeatures.find(f => f._id === feature._id)) {
-            setSelectedFeatures([...selectedFeatures, feature])
-        }
-    }
+        setSelectedFeatureIds(prevIds => {
+            if (event.target.checked) {
+                return [...prevIds, selectedId];
+            } else {
+                return prevIds.filter(id => id !== selectedId);
+            }
+        });
+    };
 
-    const updateSub: SubmitHandler<FormValues> = async (values) => {
-        const featureIds = selectedFeatures.map(f => f._id)
-        const res = await api.put(`/subscriptions/${id[2]}`, { ...values, features: featureIds })
+    const updateSub = async (values) => {
+        setLoading(true)
+        const res = await api.put(`/subscriptions/${id}`, { ...values, features: selectedFeatureIds });
+        if(res) setLoading(false);
         if (res.data) {
-            router.replace('/subscription')
+            alert("Plan successfully updated")
+        }
+    };
+    
+    const handleDelete = async () => {
+        setLoading(true)
+        const res = await api.delete(`/subscriptions/${id}`);
+        if(res) setLoading(false);
+        if (res.data) {
+            router.replace('/subscription');
         }
     }
 
-    if (isLoading) return <PageLoader />
-    if (isError) return <div>Sorry There was an Error</div>
+    if (isLoading) return <PageLoader />;
+    if (isError) return <div>Sorry, there was an error loading the subscription data.</div>;
 
     return (
         <div>
@@ -156,21 +127,29 @@ const SubInfo = () => {
                         <div className="mb-4 relative">
                             <label className="block text-sm font-medium text-gray-700">Feature(s)</label>
                             <div className='flex items-center justify-between w-full py-[6px] px-[6px] border rounded-[6px] mt-1'>
-                                <p>{selectedFeatures.map(f => f.name).join(', ')}</p>
+                                <p>{selectedFeatureIds.map(id => featuresData?.find(f => f._id === id)?.name).join(', ')}</p>
                                 <IoChevronDown onClick={() => setFeatureDropDown(!featureDropDown)} cursor={'pointer'} />
                             </div>
-                            {
-                                featureDropDown &&
+                            {featureDropDown && (
                                 <div className='w-full py-1 px-[6px] border rounded-[6px] mt-1 absolute bg-white z-10'>
-                                    {featuresData?.map((feature: FeatureType) => (
-                                        <p key={feature._id} className='cursor-pointer' onClick={() => {
-                                            handleSelectChange(feature)
-                                        }}>
-                                            {feature.name}
-                                        </p>
+                                    {featuresData?.map((feature) => (
+                                        <div key={feature._id} className="relative py-2 pl-3 pr-9">
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="checkbox"
+                                                    value={feature._id}
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedFeatureIds.includes(feature._id)}
+                                                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                                />
+                                                <label className="ml-3 block text-sm font-medium text-gray-700">
+                                                    {feature.name}
+                                                </label>
+                                            </div>
+                                        </div>
                                     ))}
                                 </div>
-                            }
+                            )}
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Plan Validity</label>
@@ -190,15 +169,21 @@ const SubInfo = () => {
                             />
                             {errors.description && <span className='text-red-500 block text-[12px]'>This field is required</span>}
                         </div>
-                        <div className='flex items-center gap-5'>
-                            <button className="px-4 py-2 bg-gray-800 text-white rounded-md w-full" type="submit">Update</button>
-                            <button className="px-4 py-2 bg-red-800 text-white rounded-md w-full" type="button" onClick={handleDelete}>Delete</button>
-                        </div>
+                        {
+                            loading ? 
+                            <BtnLoader />
+                            :
+                            <div className='flex items-center gap-5'>
+                                <button className="px-4 py-2 bg-gray-800 text-white rounded-md w-full" type="submit">Update Plan</button>
+                                <button className="px-4 py-2 bg-red-800 text-white rounded-md w-full" type="button" onClick={handleDelete}>Delete Plan</button>
+                            </div>
+                            
+                        }
                     </form>
                 </div>
             </>
         </div>
-    )
-}
+    );
+};
 
-export default SubInfo
+export default SubInfo;
