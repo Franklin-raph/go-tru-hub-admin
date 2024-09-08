@@ -11,14 +11,15 @@ import { IoChevronDown } from "react-icons/io5";
 const EditFeaturesModal = ({ setEditFeaturesModal, eidtFeatureModal } : any) => {
 
   const featuresArray = [
-    "Gotru Trade", "Gotru Monitor", "Gotru Pass"
+    "Gotru Trade", "Gotru Monitor", "Gotru Monitor Source", "Gotru Pass", "Results"
   ]
   
   const [featureDropDown, setFeatureDropDown] = useState<boolean>(false)
+  const [selectedFeature, setSelectedFeature] = useState<string>('')
 
   const {
-      register, 
-      handleSubmit, 
+      register,
+      handleSubmit,
       formState: { errors, isSubmitting },
       reset,
   } = useForm()
@@ -28,8 +29,8 @@ const EditFeaturesModal = ({ setEditFeaturesModal, eidtFeatureModal } : any) => 
   const mutation = useMutation({
       
       mutationFn: async (values: any) => {
-          console.log();
-          const { data } = await api.put(`/features/${eidtFeatureModal._id}`, { name: values.name });
+          console.log({ name: values.name, basePrice: values.basePrice });
+          const { data } = await api.put(`/features/${eidtFeatureModal._id}`, { name: values.name, basePrice: values.basePrice });
           return data;
       },
       onSuccess: () => {
@@ -62,11 +63,25 @@ const EditFeaturesModal = ({ setEditFeaturesModal, eidtFeatureModal } : any) => 
                         <input
                             type="text"
                             {...register('name')}
-                            className='outline-none'
-                            placeholder={`${eidtFeatureModal.name}`}
+                            className='outline-none w-full'
+                            value={eidtFeatureModal.name}
+                            // placeholder={`${eidtFeatureModal.name}`}
                         />
                         <IoChevronDown fontSize={"20px"} cursor={"pointer"} onClick={() => setFeatureDropDown(!featureDropDown)}/>
                     </div>
+                    {
+                        selectedFeature === 'Gotru Monitor Source' && eidtFeatureModal.name === 'Gotru Monitor Source' &&
+                        <>
+                            <label className="block text-sm font-medium text-gray-700 mt-6">Plan Price</label>
+                            <input
+                                type="text"
+                                {...register('basePrice')}
+                                value={eidtFeatureModal.basePrice}
+                                className='border border-gray-300 w-full mt-2 px-2 py-2 rounded outline-none'
+                                placeholder='Price'
+                            />
+                        </>
+                    }
                     {
                         featureDropDown &&
                         <div className='absolute top-[85px] bg-white w-full border border-gray-300 rounded'>
@@ -76,6 +91,7 @@ const EditFeaturesModal = ({ setEditFeaturesModal, eidtFeatureModal } : any) => 
                                         <p key={index} className='py-2 cursor-pointer hover:bg-gray-200 px-3' onClick={() => {
                                             setFeatureDropDown(false)
                                             reset({ name: feature })
+                                            setSelectedFeature(feature)
                                         }}>{feature}</p>
                                     )
                                 })

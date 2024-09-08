@@ -16,9 +16,10 @@ type CreateFeaturesModalProps = {
 const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProps) => {
 
     const featuresArray = [
-        "Gotru Trade", "Gotru Monitor", "Gotru Pass"
+        "Gotru Trade", "Gotru Monitor", "Gotru Monitor Source", "Gotru Pass", "Results"
     ]
     const [featureDropDown, setFeatureDropDown] = useState<boolean>(false)
+    const [selectedFeature, setSelectedFeature] = useState<string>('')
 
     const {
         register, 
@@ -32,7 +33,9 @@ const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProp
     const mutation = useMutation({
         
         mutationFn: async (values: any) => {
-            const { data } = await api.post('/features', { name: values.name });
+            console.log({ name: values.name, basePrice: values.basePrice });
+            
+            const { data } = await api.post('/features', { name: values.name, basePrice: values.basePrice });
             return data;
         },
         onSuccess: () => {
@@ -64,11 +67,23 @@ const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProp
                         <input
                             type="text"
                             {...register('name')}
-                            className='outline-none'
+                            className='outline-none w-full'
                             placeholder='Select Feature'
                         />
                         <IoChevronDown fontSize={"20px"} cursor={"pointer"} onClick={() => setFeatureDropDown(!featureDropDown)}/>
                     </div>
+                    {
+                        selectedFeature === 'Gotru Monitor Source' &&
+                        <>
+                            <label className="block text-sm font-medium text-gray-700 mt-6">Plan Price</label>
+                            <input
+                                type="text"
+                                {...register('basePrice')}
+                                className='border border-gray-300 w-full mt-2 px-2 py-2 rounded outline-none'
+                                placeholder='Price'
+                            />
+                        </>
+                    }
                     {
                         featureDropDown &&
                         <div className='absolute top-[85px] bg-white w-full border border-gray-300 rounded'>
@@ -78,6 +93,7 @@ const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProp
                                         <p key={index} className='py-2 cursor-pointer hover:bg-gray-200 px-3' onClick={() => {
                                             setFeatureDropDown(false)
                                             reset({ name: feature })
+                                            setSelectedFeature(feature)
                                         }}>{feature}</p>
                                     )
                                 })

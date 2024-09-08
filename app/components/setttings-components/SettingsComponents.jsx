@@ -12,6 +12,8 @@ const SettingsComponents = () => {
     const router = useRouter();
 
     const [encrypted, setEncrypted] = useState(true);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('')
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, watch } = useForm();
 
@@ -48,6 +50,34 @@ const SettingsComponents = () => {
 
         console.log(res, data.data);
         reset();
+    }
+
+    async function sendAnnounncement() {
+        if(!title || !content){
+            alert("Title and content are required");
+            return;
+        }
+        const res = await fetch('https://test.yamltech.com/announcements',{
+            method: 'POST',
+            body: JSON.stringify({
+                title,
+                content
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            },
+            signal: AbortSignal.timeout(10000)
+        })
+        const data = await res.json()
+        if(res.ok){
+            alert("Announcement sent");
+        }
+        if(!res.ok){
+            alert("An error occurred, please try again");
+        }
+        console.log(res, data);
+        
     }
 
     return (
@@ -166,7 +196,7 @@ const SettingsComponents = () => {
                                 </div>
                                 <p className='text-[#4F4F4F] mt-2'>Send an announcement to all registered organizations</p>
                             </div>
-                            <form>
+                            <div>
                                 <div className='flex flex-col items-center gap-5'>
                                     <div className="w-full" style={{ marginBottom: "30px" }}>
                                         <p style={{ marginBottom: "5px" }}>Title</p>
@@ -174,26 +204,27 @@ const SettingsComponents = () => {
                                             <input
                                                 className='w-full text-[#19201d] outline-none bg-transparent'
                                                 type="text"
-                                                placeholder="e.g Change in subscription pricing"
+                                                placeholder="Title"
+                                                onChange={e => setTitle(e.target.value)}
                                             />
                                         </div>
                                     </div>
                                     <div className="w-full" style={{ marginBottom: "30px" }}>
                                         <p style={{ marginBottom: "5px" }}>Announcement</p>
                                         <div className="border w-full rounded-[4px] flex items-center justify-between">
-                                            <textarea className='bg-transparent w-full resize-none p-3 outline-none h-[150px]'></textarea>
+                                            <textarea onChange={e => setContent(e.target.value)} className='bg-transparent w-full resize-none p-3 outline-none h-[150px]'></textarea>
                                         </div>
                                     </div>
                                     <div className="w-full" style={{ marginBottom: "30px" }}>
                                         <button
-                                            type="submit"
+                                            onClick={sendAnnounncement}
                                             className="bg-[#19201D] w-full text-white py-3 px-4 rounded"
                                         >
                                             Send
                                         </button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
