@@ -37,6 +37,7 @@ const EditFeaturesModal = ({ setEditFeaturesModal, eidtFeatureModal } : any) => 
           queryClient.invalidateQueries({ queryKey: ['features'] });
           reset();
           setEditFeaturesModal(false);
+          alert("Feature updated successfully")
       },
       onError: (error) => {
           console.error('Error creating feature:', error);

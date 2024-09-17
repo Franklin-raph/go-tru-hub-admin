@@ -224,6 +224,9 @@ const ManageUsersComponents = () => {
                           </button>
                         </td>
                       )}
+                      <td>
+                        <button className="border border-gray-600 rounded-[4px] px-3 py-[6px] text-[12px]" onClick={() => router.replace(`manage-users-component/${user._id}`)} >Contract</button>
+                      </td>
                     </tr>
                   )
                 )}
