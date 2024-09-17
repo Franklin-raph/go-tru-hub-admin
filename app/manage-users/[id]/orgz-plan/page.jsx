@@ -6,7 +6,7 @@ import TopNav from '../../../components/top-nav/TopNav'
 import Cookies from "js-cookie";
 import { useParams, useRouter } from 'next/navigation';
 
-const page = () => {
+const OrgzPlan = () => {
 
   const router = useRouter()
   const { id } = useParams()
@@ -83,7 +83,7 @@ const page = () => {
                       <tbody>
                           {
                               itemsInCart && itemsInCart?.map((item, index) => (
-                                  <tr style={{borderBottom:"1px solid #dcdcdc"}}>
+                                  <tr key={index} style={{borderBottom:"1px solid #dcdcdc"}}>
                                       <td className="px-6 py-4">{index + 1}</td>
                                       <td className="px-6 py-4 capitalize">{item?.subscriptionType?.name}</td>
                                       <td className="px-6 py-4 capitalize">{item?.planValidity}</td>
@@ -136,4 +136,4 @@ const page = () => {
   )
 }
 
-export default page
+export default OrgzPlan

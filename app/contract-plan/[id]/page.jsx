@@ -6,7 +6,7 @@ import TopNav from '../../components/top-nav/TopNav'
 import Cookies from "js-cookie";
 import { useParams, useRouter } from 'next/navigation';
 
-const page = () => {
+const ContractPlanInfo = () => {
 
     const [contractPlan, setContractPlan] = useState();
     const router = useRouter()
@@ -101,4 +101,4 @@ const page = () => {
   )
 }
 
-export default page
+export default ContractPlanInfo

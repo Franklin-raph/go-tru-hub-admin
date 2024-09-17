@@ -8,7 +8,7 @@ import { useParams, useRouter } from 'next/navigation';
 import SubCard from '../../components/sub-card/SubCard'
 import ConfirmSubModal from '../../components/confirm-sub-modal/ConfirmSubModal'
 
-const page = () => {
+const ManageUserInfo = () => {
 
     const [contractPlan, setContractPlan] = useState();
     const [confirmSubModal, setConfirmSubModal] = useState(false)
@@ -75,8 +75,8 @@ const page = () => {
                     <p className='font-[500] text-[20px] mb-2'>Subscription Plans</p>
                     <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
                         {
-                            arrayOfFeatures && arrayOfFeatures?.map(plan => (
-                                <SubCard plan={plan} setConfirmSubModal={setConfirmSubModal}/>
+                            arrayOfFeatures && arrayOfFeatures?.map((plan, index) => (
+                                <SubCard key={index} plan={plan} setConfirmSubModal={setConfirmSubModal}/>
                             ))
                         }
                     </div>
@@ -90,4 +90,4 @@ const page = () => {
   )
 }
 
-export default page
+export default ManageUserInfo
