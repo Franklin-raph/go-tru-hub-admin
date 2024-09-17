@@ -51,7 +51,7 @@ const ContractPlanInfo = () => {
                         </div>
                         <div className="flex items-center gap-3">
                             {/* <button  className="py-3 px-4 bg-[#FFFFFF] rounded-[8px] text-[14px] font-[600] shadow-md" onClick={() => router.replace('/subscription')} >Contract plan</button> */}
-                            <button className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] font-[600] text-[14px]">Create Feature</button>
+                            {/* <button className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] font-[600] text-[14px]">Create Feature</button> */}
                         </div>
                     </div>
                 </div>
