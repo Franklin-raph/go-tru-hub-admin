@@ -73,10 +73,22 @@ const ManageUserInfo = () => {
         }
     }
 
+    async function getActivePlans() {
+        const res = await fetch(`https://test.yamltech.com/organizations/${id}`, {
+            headers: {
+                Authorization: `Bearer ${Cookies.get("token")}`,
+            }
+        });
+        const data = await res.json();
+        // setArrayOfFeatures(data.data);
+        console.log(data);
+    }
+
     useEffect(() => {
         getOrgInfo();
         getMetricInfo();
         getSubs();
+        getActivePlans()
     }, []);
 
     async function getOrgInfo(){
