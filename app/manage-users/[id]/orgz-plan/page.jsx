@@ -112,7 +112,7 @@ const OrgzPlan = () => {
                           style: 'currency',
                           currency: 'NGN' // Change to your desired currency code (e.g., 'EUR', 'GBP', 'JPY', etc.)
                       })}</p>
-                      <button onClick={payNow} className='bg-[#19201D] text-white font-[500] rounded-[8px] px-6 py-[9px]'>Pay Now</button>
+                      <button onClick={payNow} className='bg-[#19201D] text-white font-[500] rounded-[8px] px-6 py-[9px]'>Approve</button>
                   </div>
               </div>
           </div>

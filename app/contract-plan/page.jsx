@@ -7,22 +7,28 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
 
 const ContractPlan = () => {
-
     const [contractPlans, setContractPlans] = useState([]);
-    const router = useRouter()
-    async function getAllContractPlans(){
+    const [page, setPage] = useState(1); // State to keep track of the current page
+    const [totalPages, setTotalPages] = useState(1); // State for total pages from API
+    const router = useRouter();
+
+    async function getAllContractPlans(currentPage = 1){
+        console.log(currentPage);
+        
         try {
-            const response = await fetch('https://test.yamltech.com/contract-plan/all-plans',
+            const response = await fetch(`https://test.yamltech.com/contract-plan/all-plans?page=${currentPage}`,
             {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")}`,
                 },
-                }
-            );
+            });
             const data = await response.json();
             setContractPlans(data.data);
-            console.log(data);
+            setTotalPages(data.totalPages || 1); // Assuming totalPages is returned from the API
+
+            console.log('Data:', data);
+            console.log('Total Pages:', data.totalPages); // Log total pages for debugging
             
             return data;
         } catch (error) {
@@ -31,8 +37,25 @@ const ContractPlan = () => {
     }
 
     useEffect(() => {
-        getAllContractPlans()
-    },[])
+        getAllContractPlans(page);
+    }, [page]); // Refetch when page changes
+
+    // Function to go to the next page
+    const handleNextPage = () => {
+        // if (page < totalPages) {
+        // }
+        setPage(prevPage => prevPage + 1);
+        console.log(page);
+    };
+
+    // Function to go to the previous page
+    const handlePreviousPage = () => {
+        console.log(page);
+        
+        setPage(prevPage => prevPage - 1);
+        // if (page > 1) {
+        // }
+    };
 
   return (
     <div>
@@ -44,10 +67,8 @@ const ContractPlan = () => {
                     <div className="flex items-center justify-between mb-[3rem]">
                         <div>
                             <p className="text-[28px] text-primary-color font-[600]">Contract Plans</p>
-                            {/* <p className='text-[#828282]'>Your current pricing system is set to,</p> */}
                         </div>
                         <div className="flex items-center gap-3">
-                            {/* <button  className="py-3 px-4 bg-[#FFFFFF] rounded-[8px] text-[14px] font-[600] shadow-md" onClick={() => router.replace('/subscription')} >Contract plan</button> */}
                             <button className="bg-[#2D3934] text-white px-4 py-3 rounded-[8px] font-[600] text-[14px]">Create Feature</button>
                         </div>
                     </div>
@@ -86,24 +107,25 @@ const ContractPlan = () => {
                         </tbody>
                     </table>
                 </div>
+                {/* Pagination buttons */}
+                <div className="flex justify-end gap-4 mt-4 px-5 pb-10">
+                    <button
+                        className="py-2 px-4 rounded bg-secondary-color text-white"
+                        onClick={handlePreviousPage}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        className="py-2 px-4 rounded bg-secondary-color text-white"
+                        onClick={handleNextPage}
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
         </>
-        {/* {
-            eidtFeatureModal &&
-            <EditFeaturesModal setEditFeaturesModal={setEditFeaturesModal} eidtFeatureModal={eidtFeatureModal}/>
-        }
-
-        {
-            createFeatureModal &&
-            <CreateFeatureModal setCreateFeaturesModal={setCreateFeaturesModal} />
-        }
-
-        {
-            deleteFeatureModal &&
-            <DeleteFeaturesModal setDeleteFeaturesModal={setDeleteFeaturesModal} deleteFeatureModal={deleteFeatureModal} />
-        } */}
     </div>
   )
 }
 
-export default ContractPlan
+export default ContractPlan;

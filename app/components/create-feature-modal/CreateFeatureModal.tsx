@@ -16,7 +16,7 @@ type CreateFeaturesModalProps = {
 const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProps) => {
 
     const featuresArray = [
-        "Gotru Trade", "Gotru Monitor", "Gotru Monitor Source", "Gotru Pass", "Results"
+        "Gotru Trade", "Gotru Monitor", "Monitorsource", "Gotru Pass", "Results"
     ]
     const [featureDropDown, setFeatureDropDown] = useState<boolean>(false)
     const [selectedFeature, setSelectedFeature] = useState<string>('')
@@ -49,6 +49,8 @@ const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProp
     });
 
     const createFeature = async (values: any) => {
+        console.log(values);
+        
         mutation.mutate(values);
     };
 
@@ -73,7 +75,7 @@ const CreateFeatureModal = ({ setCreateFeaturesModal } : CreateFeaturesModalProp
                         <IoChevronDown fontSize={"20px"} cursor={"pointer"} onClick={() => setFeatureDropDown(!featureDropDown)}/>
                     </div>
                     {
-                        selectedFeature === 'Gotru Monitor Source' &&
+                        selectedFeature === 'Monitorsource' &&
                         <>
                             <label className="block text-sm font-medium text-gray-700 mt-6">Plan Price</label>
                             <input
