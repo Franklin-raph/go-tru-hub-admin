@@ -256,7 +256,7 @@ const ManageUserInfo = () => {
                             <div className='flex items-center gap-[3rem] mt-5'>
                                 {
                                     graphDdata.map((entry, index) => (
-                                        <div className="flex items-center mb-4">
+                                        <div className="flex items-center mb-4" key={index}>
                                             <div
                                                 className={`w-4 h-8 mr-2 rounded-full bg-[${entry.color}]`}
                                                 style={{ width: `3px` }}
