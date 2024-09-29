@@ -12,7 +12,7 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 const ManageUserInfo = () => {
 
-    const [contractPlan, setContractPlan] = useState();
+    const [orgInfo, setOrgInfo] = useState();
     const [confirmSubModal, setConfirmSubModal] = useState(false);
     const router = useRouter();
     const { id } = useParams();
@@ -73,8 +73,28 @@ const ManageUserInfo = () => {
         }
     }
 
+    async function getOrgInfo() {
+        console.log("Fetching feature metric for id:", id);
+        
+        try {
+            const response = await fetch(`https://test.yamltech.com/organizations/users-summary/${id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("token")}`,
+                },
+            });
+
+            const data = await response.json();
+            console.log(data.data);
+            setOrgInfo(data.data)
+
+        } catch (error) {
+            console.error('Error fetching feature metric:', error);
+        }
+    }
+
     async function getActivePlans() {
-        const res = await fetch(`https://test.yamltech.com/organizations/${id}`, {
+        const res = await fetch(`https://test.yamltech.com/organizations/active-plans/${id}`, {
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             }
@@ -91,9 +111,9 @@ const ManageUserInfo = () => {
         getActivePlans()
     }, []);
 
-    async function getOrgInfo(){
-        // Fetch organization info here if needed
-    }
+    // async function getOrgInfo(){
+    //     // Fetch organization info here if needed
+    // }
 
     async function getSubs() {
         const res = await fetch(`https://test.yamltech.com/subscriptions`, {
@@ -115,7 +135,7 @@ const ManageUserInfo = () => {
                 <div className="px-[30px] py-[1rem]">
                     <div className="flex items-center justify-between mb-[3rem]">
                         <div>
-                            <p className="text-[28px] text-primary-color font-[600]">St John of God College Awka, Anambra State</p>
+                            <p className="text-[28px] text-primary-color font-[600]">{orgInfo?.organization?.nameOfEstablishment}</p>
                             {/* <p className='text-[#828282]'>Your current pricing system is set to,</p> */}
                         </div>
                     </div>
@@ -137,7 +157,7 @@ const ManageUserInfo = () => {
                             <div className="grid gap-4">
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Institution name:</strong></p>
-                                    <p>St John of God College Awka, Anambra State</p>
+                                    <p>{orgInfo?.organization?.nameOfEstablishment}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Proprietor name:</strong></p>
@@ -145,23 +165,23 @@ const ManageUserInfo = () => {
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Type:</strong></p>
-                                    <p>Personal Business</p>
+                                    <p>{orgInfo?.organization?.bizType}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Email:</strong></p>
-                                    <p>admin@madonnaschools.com</p>
+                                    <p>{orgInfo?.organization?.email}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Phone number:</strong></p>
-                                    <p>+234 875 896 8879</p>
+                                    <p>{orgInfo?.organization?.phone}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Year of establishment:</strong></p>
-                                    <p>2024</p>
+                                    <p>{orgInfo?.organization?.yearOfEstablishment}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Address:</strong></p>
-                                    <p>25 Ziks Avenue Abakpa, Nike, Enugu</p>
+                                    <p>{orgInfo?.organization?.businessAddress}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Joined:</strong></p>

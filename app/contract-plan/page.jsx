@@ -89,7 +89,7 @@ const ContractPlan = () => {
                         </thead>
                         <tbody>
                             {
-                                contractPlans && contractPlans.map((plan, index) => {
+                                contractPlans && contractPlans?.plans?.map((plan, index) => {
                                     return(
                                         <tr className='cursor-pointer' style={{borderBottom:"1px solid #dcdcdc"}} key={index} onClick={() => router.replace(`/contract-plan/${plan._id}`)} >
                                             <td className="px-6 py-4">{index +1}</td>
@@ -108,13 +108,14 @@ const ContractPlan = () => {
                     </table>
                 </div>
                 {/* Pagination buttons */}
-                <div className="flex justify-end gap-4 mt-4 px-5 pb-10">
+                <div className="flex justify-end items-center gap-4 mt-4 px-5 pb-10">
                     <button
                         className="py-2 px-4 rounded bg-secondary-color text-white"
                         onClick={handlePreviousPage}
                     >
                         Previous
                     </button>
+                    <p>Page { contractPlans?.pagination?.currentPage } of { contractPlans?.pagination?.totalPages } </p>
                     <button
                         className="py-2 px-4 rounded bg-secondary-color text-white"
                         onClick={handleNextPage}
