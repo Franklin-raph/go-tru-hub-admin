@@ -185,7 +185,7 @@ const ManageUserInfo = () => {
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Joined:</strong></p>
-                                    <p>23/04/2024</p>
+                                    <p>{ new Date(orgInfo?.organization?.createdAt).toDateString() }</p>
                                 </div>
                             </div>
 
