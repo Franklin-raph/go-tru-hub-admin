@@ -9,6 +9,7 @@ import SubCard from '../../components/sub-card/SubCard'
 import ConfirmSubModal from '../../components/confirm-sub-modal/ConfirmSubModal'
 import { FaDownload } from 'react-icons/fa';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import Link from 'next/link';
 
 const ManageUserInfo = () => {
 
@@ -138,6 +139,7 @@ const ManageUserInfo = () => {
                             <p className="text-[28px] text-primary-color font-[600]">{orgInfo?.organization?.nameOfEstablishment}</p>
                             {/* <p className='text-[#828282]'>Your current pricing system is set to,</p> */}
                         </div>
+                        <Link href={`/manage-users/${id}/contract`} className='bg-[#1E2522] px-4 rounded-[6px] py-3 text-[#fff]'>Contract Plan</Link>
                     </div>
                 </div>
                 <div className='px-[10px] md:px-[30px]'>
@@ -283,7 +285,7 @@ const ManageUserInfo = () => {
                                             />
                                             <div className='grid text-[14px]'>
                                                 <span className='capitalize'>{entry.name}</span>
-                                                <span>{entry.value}%</span>
+                                                <span>{entry.value.toFixed(4)}%</span>
                                             </div>
                                         </div>
                                     ))
