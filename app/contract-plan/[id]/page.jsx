@@ -59,7 +59,6 @@ const ContractPlanInfo = () => {
                     <table className="w-full text-sm text-left rtl:text-left">
                         <thead className="text-[14px] border-b">
                             <tr>
-                                <th scope="col" className="px-6 py-3 font-[700]">Org. name</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Amount</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Paid Status</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Plan Validity</th>
@@ -69,8 +68,7 @@ const ContractPlanInfo = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='cursor-pointer' style={{borderBottom:"1px solid #dcdcdc"}} onClick={() => router.replace(`/contract-plan/${plan._id}`)} >
-                                <td className="px-6 py-4">{contractPlan?.Organization?.nameOfEstablishment}</td>
+                            <tr className='cursor-pointer' style={{borderBottom:"1px solid #dcdcdc"}}>
                                 <td className="px-6 py-4">{contractPlan?.amount}</td>
                                 <td className="px-6 py-4">{contractPlan?.paidStatus.toString()}</td>
                                 <td className="px-6 py-4">{contractPlan?.planValidity}</td>
@@ -80,6 +78,18 @@ const ContractPlanInfo = () => {
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div className='p-4'>
+                    <p className='font-bold mb-2 underline'>Features Subscribed For</p>
+                    {
+                        contractPlan?.subscriptionType?.feature?.map((f, index) => (
+                            <p>{index+1}. {f.name}</p>
+                        ))
+                    }
+                </div>
+                <div className='p-4'>
+                    <p className='font-bold mb-2 underline'>Plan Name</p>
+                    <p>{contractPlan?.subscriptionType?.name}</p>
                 </div>
             </div>
         </>
