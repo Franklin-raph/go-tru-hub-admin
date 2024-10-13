@@ -221,35 +221,53 @@ const ManageUserInfo = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-5 py-5 rounded-[12px]">
+                    <div className="grid grid-cols-5 gap-5 py-5 rounded-[12px]">
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
-                        <div className="flex items-center justify-between mb-5">
-                            <p className="text-[#4F4F4F] font-[600]">Total subscription </p>
-                            <div className='bg-[#23AEAE] p-2 rounded-full'>
-                            <img src="./images/buildings.svg" alt="" />
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Total subscription </p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/buildings.svg" alt="" />
+                                </div>
                             </div>
-                        </div>
-                        <p className="font-[600] text-text-color text-[24px]">#</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalSubscription}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
-                        <div className="flex items-center justify-between mb-5">
-                            <p className="text-[#4F4F4F] font-[600]">Active subscription</p>
-                            <div className='bg-[#23AEAE] p-2 rounded-full'>
-                            <img src="./images/card-tick.svg" alt="" />
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Active subscription</p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/card-tick.svg" alt="" />
+                                </div>
                             </div>
-                        </div>
-                        <p className="font-[600] text-text-color text-[24px]">#</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalActiveSubscription}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
-                        <div className="flex items-center justify-between mb-5">
-                            <p className="text-[#4F4F4F] font-[600]">Total users</p>
-                            <div className='bg-[#23AEAE] p-2 rounded-full'>
-                            <img src="./images/card-tick.svg" alt="" />
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Total Guardians</p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/card-tick.svg" alt="" />
+                                </div>
                             </div>
+                            <p className="font-[600] text-text-color text-[24px]">{orgInfo?.totalGuardian}</p>
                         </div>
-                        <p className="font-[600] text-text-color text-[24px]">#</p>
+                        <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Total Staffs</p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/card-tick.svg" alt="" />
+                                </div>
+                            </div>
+                            <p className="font-[600] text-text-color text-[24px]">{orgInfo?.totalStaffs}</p>
+                        </div>
+                        <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Total Students</p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/card-tick.svg" alt="" />
+                                </div>
+                            </div>
+                            <p className="font-[600] text-text-color text-[24px]">{orgInfo?.totalStudents}</p>
                         </div>
                     </div>
                     <div className='flex gap-5'>
