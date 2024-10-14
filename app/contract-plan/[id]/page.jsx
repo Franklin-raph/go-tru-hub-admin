@@ -83,7 +83,7 @@ const ContractPlanInfo = () => {
                     <p className='font-bold mb-2 underline'>Features Subscribed For</p>
                     {
                         contractPlan?.subscriptionType?.feature?.map((f, index) => (
-                            <p>{index+1}. {f.name}</p>
+                            <p key={index}>{index+1}. {f.name}</p>
                         ))
                     }
                 </div>
