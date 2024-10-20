@@ -19,6 +19,7 @@ const ManageUsersComponents = () => {
   const [activateAcct, setActivateAcct] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
+  const [deleteOrgs, setDeleteOrgs] = useState<string>("");
   const [viewDropdown, setViewDropdown] = useState<string | null>(null); // Track dropdown for each user
 
   // Fetch all users without filters
@@ -76,6 +77,31 @@ const ManageUsersComponents = () => {
     setLoading(false);
     if (res.ok) {
       setDeactivateAcct("");
+      refetch();
+      alert(data.message);
+    }
+  }
+
+
+  // Function to deactivate an account
+  async function deleteAcctFn(id: string) {
+    setLoading(true);
+    const res = await fetch(
+      `https://test.yamltech.com/organizations/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+    console.log(data);
+    
+    setLoading(false);
+    if (res.ok) {
+      setDeleteOrgs("");
       refetch();
       alert(data.message);
     }
@@ -205,19 +231,35 @@ const ManageUsersComponents = () => {
                         {viewDropdown === user._id && (
                           <div className="absolute bg-white border rounded shadow-lg mt-2 p-2 z-10">
                             {user.isActive ? (
-                              <button
-                                className="block w-full text-left border border-red-300 rounded-[4px] px-3 py-[6px] text-[12px]"
-                                onClick={() => setDeactivateAcct(user._id)}
-                              >
-                                Deactivate Account
-                              </button>
+                              <>
+                                <button
+                                  className="block w-full text-left border border-red-300 rounded-[4px] px-3 py-[6px] text-[12px]"
+                                  onClick={() => setDeactivateAcct(user._id)}
+                                >
+                                  Deactivate Account
+                                </button>
+                                <button
+                                  className="block w-full text-left border border-red-300 rounded-[4px] px-3 py-[6px] text-[12px]"
+                                  onClick={() => setDeleteOrgs(user._id)}
+                                >
+                                  Delete Account
+                                </button>
+                              </>
                             ) : (
-                              <button
-                                className="block w-full text-left border border-green-300 rounded-[4px] px-3 py-[6px] text-[12px]"
-                                onClick={() => setActivateAcct(user._id)}
-                              >
-                                Activate Account
-                              </button>
+                              <>
+                                <button
+                                  className="block w-full text-left border border-green-300 rounded-[4px] px-3 py-[6px] text-[12px]"
+                                  onClick={() => setActivateAcct(user._id)}
+                                >
+                                  Activate Account
+                                </button>
+                                <button
+                                  className="block w-full text-left border border-red-300 rounded-[4px] px-3 py-[6px] text-[12px]"
+                                  onClick={() => setDeleteOrgs(user._id)}
+                                >
+                                  Delete Account
+                                </button>
+                              </>
                             )}
                             <button
                               className="block w-full text-left border border-gray-600 rounded-[4px] px-3 py-[6px] text-[12px] mt-2"
@@ -257,6 +299,34 @@ const ManageUsersComponents = () => {
                       <button className='border-[#19201D] border px-5 py-2 rounded-[4px] text-[14px]' onClick={() => setDeactivateAcct('')}>No</button>
                       <button className='bg-[#9A2525] text-white px-5 py-2 rounded-[4px] text-[14px]' onClick={() => {
                           deactivateAcctFn(deactivateAcct)
+                      }} >Yes, Continue</button>
+                  </div>
+              </div>
+          </div>
+        </>
+      }
+
+      {
+        deleteOrgs &&
+        <>
+          <div className="h-full w-full fixed top-0 left-0 z-[99]" style={{ background:"rgba(14, 14, 14, 0.58)" }} onClick={() => setDeleteOrgs('')}></div>
+          <div className="bg-white w-[450px] fixed top-[50%] left-[50%] pt-[20px] px-[2rem] z-[100] pb-[20px]" style={{ transform: "translate(-50%, -50%)" }}>
+              <div className="flex items-center justify-between border-b pb-[5px]">
+                  <p className="text-[22px]">Delete Account</p>
+                  <IoCloseOutline fontSize={"20px"} cursor={"pointer"} onClick={() => setDeleteOrgs('')}/>
+              </div>
+              <div className='text-center flex items-center justify-center flex-col'>
+                  <img src="./images/logout-question.svg" alt="" className='mt-9'/>
+                  <div className='my-5'>
+                      <p className='text-[#19201D] mb-4'>Delete Account</p>
+                      <p className='text-[#828282] text-[14px]'>
+                          Are you sure, you want to delete this organization's account?
+                      </p>
+                  </div>
+                  <div className='flex items-center gap-5 mt-3 pb-5'>
+                      <button className='border-[#19201D] border px-5 py-2 rounded-[4px] text-[14px]' onClick={() => setDeleteOrgs('')}>No</button>
+                      <button className='bg-[#9A2525] text-white px-5 py-2 rounded-[4px] text-[14px]' onClick={() => {
+                          deleteAcctFn(deleteOrgs)
                       }} >Yes, Continue</button>
                   </div>
               </div>
