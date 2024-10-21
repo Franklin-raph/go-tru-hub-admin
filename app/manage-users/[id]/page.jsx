@@ -163,7 +163,7 @@ const ManageUserInfo = () => {
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Proprietor name:</strong></p>
-                                    <p>Benjamin Olunremi</p>
+                                    <p>{orgInfo?.organization?.nameOfProprietor === "" ? "N/A" : orgInfo?.organization?.nameOfProprietor}</p>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p><strong>Type:</strong></p>
