@@ -139,7 +139,10 @@ const ManageUserInfo = () => {
                             <p className="text-[28px] text-primary-color font-[600]">{orgInfo?.organization?.nameOfEstablishment}</p>
                             {/* <p className='text-[#828282]'>Your current pricing system is set to,</p> */}
                         </div>
-                        <Link href={`/manage-users/${id}/contract`} className='bg-[#1E2522] px-4 rounded-[6px] py-3 text-[#fff]'>Contract Plan</Link>
+                        <div className='flex gap-3'>
+                            <Link href={`/manage-users/${id}/contract`} className='bg-[#1E2522] px-4 rounded-[6px] py-3 text-[#fff]'>Contract Plan</Link>
+                            <Link href={`/manage-users/${id}/monitor-source`} className='bg-[#1E2522] px-4 rounded-[6px] py-3 text-[#fff]'>Contract Source</Link>
+                        </div>
                     </div>
                 </div>
                 <div className='px-[10px] md:px-[30px]'>
