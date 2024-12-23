@@ -12,7 +12,7 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import Link from 'next/link';
 import SideNav from '@/app/components/side-nav/SideNav';
 
-const page = () => {
+const MonitorSource = () => {
 
     const { id } = useParams();
     const [contractData, setContractData] = useState()
@@ -139,4 +139,4 @@ const page = () => {
   )
 }
 
-export default page
+export default MonitorSource
