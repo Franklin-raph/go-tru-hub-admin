@@ -142,7 +142,7 @@ const ManageUsersComponents = () => {
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
               >
-                <option value="">--Select Status--</option>
+                <option value="">--Select Duration--</option>
                 <option value="thisMonth">This Month</option>
                 <option value="lastMonth">Last Month</option>
                 <option value="thisYear">This Year</option>
