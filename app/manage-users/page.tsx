@@ -25,6 +25,8 @@ const ManageUsersComponents = () => {
   // Fetch all users without filters
   const getAllUsers = async () => {
     const { data } = await api.get(`/organizations`);
+    console.log(data);
+    
     return data.data;
   };
 
@@ -202,6 +204,9 @@ const ManageUsersComponents = () => {
                     Phone
                   </th>
                   <th scope="col" className="px-6 py-3 font-[700]">
+                    Is Active
+                  </th>
+                  <th scope="col" className="px-6 py-3 font-[700]">
                     Date Joined
                   </th>
                   <th scope="col" className="px-6 py-3 font-[700]">
@@ -220,6 +225,7 @@ const ManageUsersComponents = () => {
                       <td className="px-6 py-4">{user.nameOfEstablishment}</td>
                       <td className="px-6 py-4">{user.email}</td>
                       <td className="px-6 py-4">{user.phone}</td>
+                      <td className="px-6 py-4">{user.isActive.toString()}</td>
                       <td className="px-6 py-4">{`${user.createdAt}`.slice(0, 10)}</td>
                       <td className="relative">
                         <button
