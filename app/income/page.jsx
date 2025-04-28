@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import SideNav from '../components/side-nav/SideNav';
 import TopNav from '../components/top-nav/TopNav';
 import { useEffect, useState } from 'react';
+import SubscriptionRevenueChart from '../components/subscriptionRevenueChart/SubscriptionRevenueChart';
 
 const Income = () => {
 
@@ -26,6 +27,7 @@ const Income = () => {
     // if (isLoading) return <PageLoader />;
     // if (isError) return <div>Sorry There was an Error</div>
     const [data, setData] = useState()
+    const [graphData, setGraphData] = useState(null)
 
     async function getSummary() {
         const res = await fetch(`https://test.yamltech.com/summary`, {
@@ -46,6 +48,7 @@ const Income = () => {
             }
         });
         const data = await res.json();
+        setGraphData(data)
         console.log(data);
     }
 
@@ -93,7 +96,7 @@ const Income = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-white text-[24px]">#{data?.totalRevenue}</p>
+                            <p className="font-[600] text-white text-[24px]">#{data?.totalRevenue?.toLocaleString()}</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-5 px-5 py-5 rounded-[12px]">
@@ -104,7 +107,7 @@ const Income = () => {
                                     <img src="./images/buildings.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBasicPlan}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBasicPlan?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -114,7 +117,7 @@ const Income = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBulkPlan}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBulkPlan?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -124,7 +127,7 @@ const Income = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountComboPlan}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountComboPlan?.toLocaleString()}</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-5 px-5 py-5 rounded-[12px]">
@@ -135,7 +138,7 @@ const Income = () => {
                                     <img src="./images/buildings.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{data?.subRevenue}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{data?.subRevenue?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -145,7 +148,7 @@ const Income = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountContract}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountContract?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -155,10 +158,14 @@ const Income = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountResultPlan}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountResultPlan?.toLocaleString()}</p>
                         </div>
                     </div>
                 </div>
+                {
+                    graphData &&
+                    <SubscriptionRevenueChart graphData={graphData}/>
+                }
             </div>
         </>
         {/* {
