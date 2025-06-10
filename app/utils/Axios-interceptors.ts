@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "https://test.yamltech.com",
+const baseURL = "https://go-tru-hub-api.onrender.com",
+// const baseURL = "https://test.yamltech.com",
   isServer = typeof window === "undefined";
 
 const api = axios.create({

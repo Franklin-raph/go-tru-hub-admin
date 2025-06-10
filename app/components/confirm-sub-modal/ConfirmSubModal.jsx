@@ -28,7 +28,7 @@ const ConfirmSubModal = ({id, setConfirmSubModal}) => {
                 quantity,
                 org:id
             }));
-            const res = await fetch(`https://test.yamltech.com/contract-plan/add-to-cart`,{
+            const res = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/add-to-cart`,{
                 method:"POST",
                 headers:{
                     'Content-Type':'application/json',

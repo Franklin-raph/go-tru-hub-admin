@@ -35,7 +35,7 @@ const ManageUsersComponents = () => {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://test.yamltech.com/organizations?bizType=${bizType}&filter=${year}&activeStatus=${status}`,
+        `https://go-tru-hub-api.onrender.com/organizations?bizType=${bizType}&filter=${year}&activeStatus=${status}`,
         {
           method: "GET",
           headers: {
@@ -66,7 +66,7 @@ const ManageUsersComponents = () => {
   async function deactivateAcctFn(id: string) {
     setLoading(true);
     const res = await fetch(
-      `https://test.yamltech.com/organizations/deactivate-acccount/${id}?status=false`,
+      `https://go-tru-hub-api.onrender.com/organizations/deactivate-acccount/${id}?status=false`,
       {
         method: "PUT",
         headers: {
@@ -89,7 +89,7 @@ const ManageUsersComponents = () => {
   async function deleteAcctFn(id: string) {
     setLoading(true);
     const res = await fetch(
-      `https://test.yamltech.com/organizations/${id}`,
+      `https://go-tru-hub-api.onrender.comrender.com/organizations/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -113,7 +113,7 @@ const ManageUsersComponents = () => {
   async function activateAcctFn(id: string) {
     setLoading(true);
     const res = await fetch(
-      `https://test.yamltech.com/organizations/deactivate-acccount/${id}?status=true`,
+      `https://go-tru-hub-api.onrender.com/organizations/deactivate-acccount/${id}?status=true`,
       {
         method: "PUT",
         headers: {

@@ -17,7 +17,7 @@ const ContractPlanInfo = () => {
     
     async function getAllContractPlans(){
         try {
-            const response = await fetch(`https://test.yamltech.com/contract-plan/single/${id}`,
+            const response = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/single/${id}`,
             {
                 method: "GET",
                 headers: {
@@ -41,7 +41,7 @@ const ContractPlanInfo = () => {
 
     async function terminateContract() {
         try {
-            const response = await fetch(`https://test.yamltech.com/contract-plan/terminate/${id}`,
+            const response = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/terminate/${id}`,
             {
                 method: "PUT",
                 headers: {

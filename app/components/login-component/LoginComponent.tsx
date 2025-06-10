@@ -27,7 +27,7 @@ const LoginComponent = () => {
     async function handleAdminLogin(values: FieldValues) {
       
       setLoading(true)
-      const res = await fetch(`https://test.yamltech.com/sign-in/admin`, {
+      const res = await fetch(`https://go-tru-hub-api.onrender.com/sign-in/admin`, {
         method: "POST",
         body: JSON.stringify(values),
         headers: { 

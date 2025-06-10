@@ -18,7 +18,7 @@ const MonitorSource = () => {
     const [contractData, setContractData] = useState()
 
     async function getAll(){
-        const res = await fetch('https://test.yamltech.com/monitor-source/all/'+id,{
+        const res = await fetch('https://go-tru-hub-api.onrender.com/monitor-source/all/'+id,{
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -30,7 +30,7 @@ const MonitorSource = () => {
     }
     
     async function getUnpaid(){
-        const res = await fetch('https://test.yamltech.com/monitor-source/all/unpaid/'+id,{
+        const res = await fetch('https://go-tru-hub-api.onrender.com/monitor-source/all/unpaid/'+id,{
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -44,7 +44,7 @@ const MonitorSource = () => {
     async function waveContract(itemId){
         console.log(itemId);
         
-        const res = await fetch(`https://test.yamltech.com/monitor-source/${itemId}`,{
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/monitor-source/${itemId}`,{
             method:"PUT",
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,

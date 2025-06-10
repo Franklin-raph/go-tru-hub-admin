@@ -28,7 +28,7 @@ const OrgzPlan = () => {
   },[])
 
   async function getMyPlans(){
-    const res = await fetch(`https://test.yamltech.com/contract-plan/pending/${id}`,{
+    const res = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/pending/${id}`,{
         headers:{
             'Content-Type':'application/json',
             Authorization: `Bearer ${Cookies.get("token")}`,
@@ -40,7 +40,7 @@ const OrgzPlan = () => {
   }
 
   async function payNow(){
-    const res = await fetch(`https://test.yamltech.com/contract-plan/pay/${id}`,{
+    const res = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/pay/${id}`,{
         headers:{
             'Content-Type':'application/json',
             Authorization: `Bearer ${Cookies.get("token")}`,

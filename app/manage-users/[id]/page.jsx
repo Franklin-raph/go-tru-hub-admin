@@ -55,7 +55,7 @@ const ManageUserInfo = () => {
         console.log("Fetching feature metric for id:", id);
         
         try {
-            const response = await fetch(`https://test.yamltech.com/organizations/feature-matric/${id}`, {
+            const response = await fetch(`https://go-tru-hub-api.onrender.com/organizations/feature-matric/${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -78,7 +78,7 @@ const ManageUserInfo = () => {
         console.log("Fetching feature metric for id:", id);
         
         try {
-            const response = await fetch(`https://test.yamltech.com/organizations/users-summary/${id}`, {
+            const response = await fetch(`https://go-tru-hub-api.onrender.com/organizations/users-summary/${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -95,7 +95,7 @@ const ManageUserInfo = () => {
     }
 
     async function getActivePlans() {
-        const res = await fetch(`https://test.yamltech.com/organizations/active-plans/${id}`, {
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/organizations/active-plans/${id}`, {
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             }
@@ -117,7 +117,7 @@ const ManageUserInfo = () => {
     // }
 
     async function getSubs() {
-        const res = await fetch(`https://test.yamltech.com/subscriptions`, {
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/subscriptions`, {
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             }

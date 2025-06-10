@@ -30,7 +30,7 @@ const Income = () => {
     const [graphData, setGraphData] = useState(null)
 
     async function getSummary() {
-        const res = await fetch(`https://test.yamltech.com/summary`, {
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/summary`, {
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             }
@@ -42,7 +42,7 @@ const Income = () => {
 
     
     async function getGraph(){
-        const res = await fetch(`https://test.yamltech.com/graph`, {
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/graph`, {
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             }

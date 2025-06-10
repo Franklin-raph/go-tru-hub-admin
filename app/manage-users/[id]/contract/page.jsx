@@ -19,7 +19,7 @@ const Contract = () => {
     
     async function getAllContractPlans(){
         try {
-            const response = await fetch(`https://test.yamltech.com/contract-plan/single/${id}`,
+            const response = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/single/${id}`,
             {
                 method: "GET",
                 headers: {
@@ -43,7 +43,7 @@ const Contract = () => {
     },[])
 
     async function getSubs(){
-        const res = await fetch(`https://test.yamltech.com/subscriptions`,{
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/subscriptions`,{
             headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
             }

@@ -29,12 +29,12 @@ const ManageUsersComponents = () => {
 
   // Fetch users with applied filters
   const applyFilter = async () => {
-    console.log(`https://test.yamltech.com/organizations?bizType=${bizType}&filter=${year}&activeStatus=${status}`);
+    console.log(`https://go-tru-hub-api.onrender.com/organizations?bizType=${bizType}&filter=${year}&activeStatus=${status}`);
     
     try {
       setLoading(true);
       const res = await fetch(
-        `https://test.yamltech.com/organizations?bizType=${bizType}&filter=${year}&activeStatus=${status}`,
+        `https://go-tru-hub-api.onrender.com/organizations?bizType=${bizType}&filter=${year}&activeStatus=${status}`,
         {
           method: "GET",
           headers: {
@@ -66,11 +66,11 @@ const ManageUsersComponents = () => {
   // Function to deactivate an account
   async function deactivateAcctFn(id: string) {
     console.log(
-      `https://test.yamltech.com/organizations/deactivate-acccount/${id}?status=false`
+      `https://go-tru-hub-api.onrender.com/organizations/deactivate-acccount/${id}?status=false`
     );
     setLoading(true);
     const res = await fetch(
-      `https://test.yamltech.com/organizations/deactivate-acccount/${id}?status=false`,
+      `https://go-tru-hub-api.onrender.com/organizations/deactivate-acccount/${id}?status=false`,
       {
         method: "PUT",
         headers: {
@@ -92,11 +92,11 @@ const ManageUsersComponents = () => {
   // Function to activate an account
   async function activateAcctFn(id: string) {
     console.log(
-      `https://test.yamltech.com/organizations/deactivate-acccount/${id}?status=true`
+      `https://go-tru-hub-api.onrender.com/organizations/deactivate-acccount/${id}?status=true`
     );
     setLoading(true);
     const res = await fetch(
-      `https://test.yamltech.com/organizations/deactivate-acccount/${id}?status=true`,
+      `https://go-tru-hub-api.onrender.com/organizations/deactivate-acccount/${id}?status=true`,
       {
         method: "PUT",
         headers: {

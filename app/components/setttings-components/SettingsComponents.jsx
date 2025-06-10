@@ -24,7 +24,7 @@ const SettingsComponents = () => {
 
         console.log(values);
         setLoading(true);
-        const res = await fetch(`https://test.yamltech.com/admin/dashboard/change-password`, {
+        const res = await fetch(`https://go-tru-hub-api.onrender.com/admin/dashboard/change-password`, {
             method: "POST",
             body: JSON.stringify({ oldPassword: values.oldPassword, newPassword: values.newPassword }),
             headers: {
@@ -57,7 +57,7 @@ const SettingsComponents = () => {
             alert("Title and content are required");
             return;
         }
-        const res = await fetch('https://test.yamltech.com/announcements',{
+        const res = await fetch('https://go-tru-hub-api.onrender.com/announcements',{
             method: 'POST',
             body: JSON.stringify({
                 title,

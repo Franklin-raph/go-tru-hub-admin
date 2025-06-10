@@ -16,7 +16,7 @@ const ContractPlan = () => {
         console.log(currentPage);
         
         try {
-            const response = await fetch(`https://test.yamltech.com/contract-plan/all-plans?page=${currentPage}`,
+            const response = await fetch(`https://go-tru-hub-api.onrender.com/contract-plan/all-plans?page=${currentPage}`,
             {
                 method: "GET",
                 headers: {
