@@ -33,7 +33,7 @@ const SubInfo = () => {
         if (data) {
             reset({
                 name: data.name,
-                amount: data.amount.$numberDecimal,
+                amount: data.amount,
                 duration: data.duration,
                 planValidity: data.planValidity,
                 description: data.description,
