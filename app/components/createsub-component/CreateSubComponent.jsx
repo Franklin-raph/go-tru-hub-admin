@@ -158,7 +158,7 @@ const CreateSubComponent = () => {
                             </div>
 
                             <div className="flex-1">
-                                <label className="block text-sm font-medium text-gray-700">Plan validity</label>
+                                <label className="block text-sm font-medium text-gray-700">Plan validity(in number of days)</label>
                                 <div className="flex space-x-2">
                                     <input
                                         type="number"

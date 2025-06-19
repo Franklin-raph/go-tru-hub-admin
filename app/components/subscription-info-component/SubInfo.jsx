@@ -152,7 +152,7 @@ const SubInfo = () => {
                             )}
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Plan Validity</label>
+                            <label className="block text-sm font-medium text-gray-700">Plan Validity(in number of days)</label>
                             <input
                                 {...register('planValidity', { required: true })}
                                 type="number"

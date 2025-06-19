@@ -61,7 +61,7 @@ const SubscriptionComponent = () => {
                                 <th scope="col" className="px-6 py-3 th1 font-[700]">S/N</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Plan</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Plan Duration</th>
-                                <th scope="col" className="px-6 py-3 font-[700]">Plan Validity</th>
+                                <th scope="col" className="px-6 py-3 font-[700]">Plan Validity(in number of days)</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">View Plan Details</th>
                             </tr>
                         </thead>

@@ -81,7 +81,7 @@ const ContractPlanInfo = () => {
                             <tr>
                                 <th scope="col" className="px-6 py-3 font-[700]">Amount</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Paid Status</th>
-                                <th scope="col" className="px-6 py-3 font-[700]">Plan Validity</th>
+                                <th scope="col" className="px-6 py-3 font-[700]">Plan Validity(in number of days)</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Is Contract</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Quantity</th>
                                 <th scope="col" className="px-6 py-3 font-[700]">Quantity Left</th>

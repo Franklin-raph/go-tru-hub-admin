@@ -87,7 +87,7 @@ const OrgzPlan = () => {
                                       <td className="px-6 py-4">{index + 1}</td>
                                       <td className="px-6 py-4 capitalize">{item?.subscriptionType?.name}</td>
                                       <td className="px-6 py-4 capitalize">{item?.planValidity}</td>
-                                      <td className="px-6 py-4">{item?.subscriptionType?.amount?.$numberDecimal.toLocaleString('en-US', {
+                                      <td className="px-6 py-4">{item?.subscriptionType?.amount?.toLocaleString('en-US', {
                                           style: 'currency',
                                           currency: 'NGN'
                                       })}</td>
