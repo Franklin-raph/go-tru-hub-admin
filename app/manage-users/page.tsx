@@ -207,6 +207,9 @@ const ManageUsersComponents = () => {
                     Is Active
                   </th>
                   <th scope="col" className="px-6 py-3 font-[700]">
+                    Has Active Plan
+                  </th>
+                  <th scope="col" className="px-6 py-3 font-[700]">
                     Date Joined
                   </th>
                   <th scope="col" className="px-6 py-3 font-[700]">
@@ -223,9 +226,10 @@ const ManageUsersComponents = () => {
                     >
                       <td className="px-6 py-4">{index + 1}</td>
                       <td className="px-6 py-4">{user.nameOfEstablishment}</td>
-                      <td className="px-6 py-4">{user.email}</td>
+                      <td className={user.hasActiveSubPlan ? "px-6 py-4" : "text-red-500 px-6 py-4"}>{user.email}</td>
                       <td className="px-6 py-4">{user.phone}</td>
                       <td className="px-6 py-4">{user.isActive.toString()}</td>
+                      <td className="px-6 py-4">{user.hasActiveSubPlan.toString()}</td>
                       <td className="px-6 py-4">{`${user.createdAt}`.slice(0, 10)}</td>
                       <td className="relative">
                         <button

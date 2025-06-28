@@ -18,6 +18,7 @@ const SettingsComponents = () => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, watch } = useForm();
 
     const [loading, setLoading] = useState(false);
+    const email = JSON.parse(localStorage.getItem('email'));
 
     async function handleAdminPasswordReset(values) {
         const newPassword = watch('newPassword');
@@ -77,7 +78,6 @@ const SettingsComponents = () => {
             alert("An error occurred, please try again");
         }
         console.log(res, data);
-        
     }
 
     return (
@@ -92,8 +92,8 @@ const SettingsComponents = () => {
                         </div>
                         <div className="h-[284px] w-full flex items-center justify-center bg-[#262F56] flex-col text-white">
                             <img src="./images/avatar.svg" className='w-[150px]' alt="" />
-                            <p className='font-[600] mb-1'>Adamu Garba Ignatius</p>
-                            <p className='font-[300] text-[14px]'>admin@gotruhub.com</p>
+                            {/* <p className='font-[600] mb-1'>Adamu Garba Ignatius</p> */}
+                            <p className='font-[300] text-[14px]'>{email}</p>
                         </div>
                     </div>
                     <div className="flex justify-center items-center flex-col mt-[4rem]">
