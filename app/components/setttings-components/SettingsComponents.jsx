@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SideNav from '../side-nav/SideNav';
 import TopNav from '../top-nav/TopNav';
 import { useRouter } from 'next/navigation';
@@ -13,44 +13,66 @@ const SettingsComponents = () => {
 
     const [encrypted, setEncrypted] = useState(true);
     const [title, setTitle] = useState('');
-    const [content, setContent] = useState('')
+    const [content, setContent] = useState('');
+    const [email, setEmail] = useState(''); // Initialize as empty string
+    const [isClient, setIsClient] = useState(false); // Track if we're on client side
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, watch } = useForm();
 
     const [loading, setLoading] = useState(false);
-    const email = JSON.parse(localStorage.getItem('email'));
+
+    // Use useEffect to safely access localStorage
+    useEffect(() => {
+        setIsClient(true);
+        // Only access localStorage after component mounts on client
+        const storedEmail = localStorage.getItem('email');
+        if (storedEmail) {
+            try {
+                setEmail(JSON.parse(storedEmail));
+            } catch (error) {
+                console.error('Error parsing email from localStorage:', error);
+                setEmail('');
+            }
+        }
+    }, []);
 
     async function handleAdminPasswordReset(values) {
         const newPassword = watch('newPassword');
 
         console.log(values);
         setLoading(true);
-        const res = await fetch(`https://go-tru-hub-api.onrender.com/admin/dashboard/change-password`, {
-            method: "POST",
-            body: JSON.stringify({ oldPassword: values.oldPassword, newPassword: values.newPassword }),
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${Cookies.get('token')}`
-            },
-            signal: AbortSignal.timeout(10000)
-        });
+        
+        try {
+            const res = await fetch(`https://go-tru-hub-api.onrender.com/admin/dashboard/change-password`, {
+                method: "POST",
+                body: JSON.stringify({ oldPassword: values.oldPassword, newPassword: values.newPassword }),
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('token')}`
+                },
+                signal: AbortSignal.timeout(10000)
+            });
 
-        if (res) setLoading(false);
-        const data = await res.json();
+            const data = await res.json();
 
-        if (!res.ok) {
-            alert(data.message);
+            if (!res.ok) {
+                alert(data.message);
+                return;
+            }
+
+            if (res.ok) {
+                console.log(data.data);
+                alert(data.message);
+                reset();
+            }
+
+            console.log(res, data.data);
+        } catch (error) {
+            console.error('Error changing password:', error);
+            alert('An error occurred while changing password');
+        } finally {
             setLoading(false);
-            return;
         }
-
-        if (res.ok) {
-            console.log(data.data);
-            alert(data.message);
-        }
-
-        console.log(res, data.data);
-        reset();
     }
 
     async function sendAnnounncement() {
@@ -58,26 +80,40 @@ const SettingsComponents = () => {
             alert("Title and content are required");
             return;
         }
-        const res = await fetch('https://go-tru-hub-api.onrender.com/announcements',{
-            method: 'POST',
-            body: JSON.stringify({
-                title,
-                content
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${Cookies.get('token')}`
-            },
-            signal: AbortSignal.timeout(10000)
-        })
-        const data = await res.json()
-        if(res.ok){
-            alert("Announcement sent");
-        }
-        if(!res.ok){
+        
+        try {
+            const res = await fetch('https://go-tru-hub-api.onrender.com/announcements',{
+                method: 'POST',
+                body: JSON.stringify({
+                    title,
+                    content
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${Cookies.get('token')}`
+                },
+                signal: AbortSignal.timeout(10000)
+            });
+            
+            const data = await res.json();
+            
+            if(res.ok){
+                alert("Announcement sent");
+                setTitle('');
+                setContent('');
+            } else {
+                alert("An error occurred, please try again");
+            }
+            console.log(res, data);
+        } catch (error) {
+            console.error('Error sending announcement:', error);
             alert("An error occurred, please try again");
         }
-        console.log(res, data);
+    }
+
+    // Don't render until we're on the client side to avoid hydration mismatches
+    if (!isClient) {
+        return null; // or a loading spinner
     }
 
     return (
@@ -92,7 +128,6 @@ const SettingsComponents = () => {
                         </div>
                         <div className="h-[284px] w-full flex items-center justify-center bg-[#262F56] flex-col text-white">
                             <img src="./images/avatar.svg" className='w-[150px]' alt="" />
-                            {/* <p className='font-[600] mb-1'>Adamu Garba Ignatius</p> */}
                             <p className='font-[300] text-[14px]'>{email}</p>
                         </div>
                     </div>
@@ -162,7 +197,7 @@ const SettingsComponents = () => {
                                                 {...register('confirmPassword', {
                                                     required: 'Password confirmation is required',
                                                     validate: value =>
-                                                        value === newPassword || 'Passwords do not match'
+                                                        value === watch('newPassword') || 'Passwords do not match'
                                                 })}
                                             />
                                             <div>
@@ -205,6 +240,7 @@ const SettingsComponents = () => {
                                                 className='w-full text-[#19201d] outline-none bg-transparent'
                                                 type="text"
                                                 placeholder="Title"
+                                                value={title}
                                                 onChange={e => setTitle(e.target.value)}
                                             />
                                         </div>
@@ -212,7 +248,12 @@ const SettingsComponents = () => {
                                     <div className="w-full" style={{ marginBottom: "30px" }}>
                                         <p style={{ marginBottom: "5px" }}>Announcement</p>
                                         <div className="border w-full rounded-[4px] flex items-center justify-between">
-                                            <textarea onChange={e => setContent(e.target.value)} className='bg-transparent w-full resize-none p-3 outline-none h-[150px]'></textarea>
+                                            <textarea 
+                                                value={content}
+                                                onChange={e => setContent(e.target.value)} 
+                                                className='bg-transparent w-full resize-none p-3 outline-none h-[150px]'
+                                                placeholder="Enter your announcement here..."
+                                            />
                                         </div>
                                     </div>
                                     <div className="w-full" style={{ marginBottom: "30px" }}>
