@@ -97,7 +97,7 @@ const DashboardComponent = () => {
                       <img src="./images/card-tick.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-white text-[24px]">{data?.activePlans}</p>
+                  <p className="font-[600] text-white text-[24px]">{data?.activePlans?.toLocaleString()}</p>
                 </div>
 
                 <div className="bg-[#1E2522] p-3 rounded-[20px]">
@@ -107,7 +107,7 @@ const DashboardComponent = () => {
                       <img src="./images/card-tick.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-white text-[24px]">#{data?.totalRevenue}</p>
+                  <p className="font-[600] text-white text-[24px]">#{data?.totalRevenue?.toLocaleString()}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-5 px-5 py-5 rounded-[12px]">
@@ -118,7 +118,7 @@ const DashboardComponent = () => {
                       <img src="./images/buildings.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBasicPlan}</p>
+                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBasicPlan?.toLocaleString()}</p>
                 </div>
 
                 <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -128,7 +128,7 @@ const DashboardComponent = () => {
                       <img src="./images/card-tick.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBulkPlan}</p>
+                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountBulkPlan?.toLocaleString()}</p>
                 </div>
 
                 <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -138,18 +138,18 @@ const DashboardComponent = () => {
                       <img src="./images/card-tick.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountComboPlan}</p>
+                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountComboPlan?.toLocaleString()}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-5 px-5 py-5 rounded-[12px]">
                 <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
                   <div className="flex items-center justify-between mb-5">
-                    <p className="text-[#4F4F4F] font-[600]">Total Revenue</p>
+                    <p className="text-[#4F4F4F] font-[600]">Sub Revenue</p>
                     <div className='bg-[#23AEAE] p-2 rounded-full'>
                       <img src="./images/buildings.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#{data?.subRevenue}</p>
+                  <p className="font-[600] text-text-color text-[24px]">#{data?.subRevenue?.toLocaleString()}</p>
                 </div>
 
                 <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -159,7 +159,7 @@ const DashboardComponent = () => {
                       <img src="./images/card-tick.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountContract}</p>
+                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountContract?.toLocaleString()}</p>
                 </div>
 
                 <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -169,7 +169,7 @@ const DashboardComponent = () => {
                       <img src="./images/card-tick.svg" alt="" />
                     </div>
                   </div>
-                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountResultPlan}</p>
+                  <p className="font-[600] text-text-color text-[24px]">#{data?.totalAmountResultPlan?.toLocaleString()}</p>
                 </div>
               </div>
             </div>

@@ -4,51 +4,41 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const SubscriptionRevenueChart = ({graphData}) => {
     const [timeRange, setTimeRange] = useState('12 months');
     const [chartData, setChartData] = useState([]);
-    // const [apiResponse, setApiResponse] = useState(null);
+    
+    // Sample data for testing - replace with your actual graphData prop
+    // const sampleGraphData = {
+    //     "success": true,
+    //     "message": "Success",
+    //     "data": {
+    //         "2025-6": {
+    //             "COMBO- Pass & Monitor": 56000,
+    //             "Result Check": 14000,
+    //             "BULK- Pass, Trade & Monitor": 32000,
+    //             "COMBO- Pass & Trade": 28000,
+    //             "BASIC- Monitor": 24000,
+    //             "BASIC - Pass": 8200,
+    //             "BASIC - Trade": 4000
+    //         }
+    //     }
+    // };
     
     // Function to process API data
     useEffect(() => {
-        // In a real application, you would fetch this data from your API
-        // const apiResponse = {
-        //     "success": true,
-        //     "message": "Success",
-        //     "data": {
-        //         "2024-5": {
-        //             "BULK- Pass, Trade & Monitor": 4000
-        //         },
-        //         "2024-8": {
-        //             "BASIC - Pass": 120000
-        //         },
-        //         "2024-9": {
-        //             "BASIC - Trade": 1754400,
-        //             "BULK- Pass, Trade & Monitor": 20000,
-        //             "BASIC- Monitor": 87000,
-        //             "BASIC - Pass": 618600,
-        //             "Result Check": 521000
-        //         },
-        //         "2024-12": {
-        //             "BULK- Pass, Trade & Monitor": 67500
-        //         },
-        //         "2025-3": {
-        //             "BULK- Pass, Trade & Monitor": 12000
-        //         },
-        //         "2025-4": {
-        //             "BULK- Pass, Trade & Monitor": 80000
-        //         }
-        //     }
-        // };
-        if (!graphData || !graphData.data) return;
+        const dataToUse = graphData
+        if (!dataToUse || !dataToUse.data) return;
 
         // Transform API data for the chart
         const transformData = () => {
+            // Updated categories mapping to match your API response
             const categories = {
                 "BASIC - Pass": "Basic",
                 "BASIC - Trade": "Basic",
                 "BASIC- Monitor": "Basic",
+                "COMBO- Pass & Monitor": "Combo",
+                "COMBO- Pass & Trade": "Combo",
                 "BULK- Pass, Trade & Monitor": "Bulk",
                 "Result Check": "Result",
-                "Assignment": "Assignment", // Keeping this though not in API data
-                "COMBO": "Combo" // Keeping this though not in API data
+                // "Assignment": "Assignment"
             };
 
             // Create month labels and initialize data structure
@@ -77,18 +67,18 @@ const SubscriptionRevenueChart = ({graphData}) => {
                 Combo: 0,
                 Bulk: 0,
                 Result: 0,
-                Assignment: 0
+                // Assignment: 0
             }));
 
             // Fill in data from API response
-            Object.entries(graphData.data).forEach(([dateKey, subscriptions]) => {
+            Object.entries(dataToUse.data).forEach(([dateKey, subscriptions]) => {
                 // Find the matching month in our data
                 const dataPoint = formattedData.find(item => item.key === dateKey);
                 if (dataPoint) {
                     // Add up values for each category
                     Object.entries(subscriptions).forEach(([subType, value]) => {
                         const category = categories[subType];
-                        if (category) {
+                        if (category && dataPoint[category] !== undefined) {
                             dataPoint[category] += value;
                         }
                     });
@@ -99,7 +89,7 @@ const SubscriptionRevenueChart = ({graphData}) => {
         };
 
         setChartData(transformData());
-    }, [timeRange]);
+    }, [timeRange, graphData]);
 
     const formatYAxis = (value) => {
         if (value >= 1000000) {
@@ -151,10 +141,10 @@ const SubscriptionRevenueChart = ({graphData}) => {
                     <div className="w-3 h-3 rounded-full bg-purple-600 mr-2"></div>
                     <span className="text-gray-600">Result</span>
                 </div>
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                     <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
                     <span className="text-gray-600">Assignment</span>
-                </div>
+                </div> */}
             </div>
             
             {/* Chart */}
@@ -189,7 +179,7 @@ const SubscriptionRevenueChart = ({graphData}) => {
                         <Area 
                             type="monotone" 
                             dataKey="Combo" 
-                            stackId="2" 
+                            stackId="1" 
                             stroke="#60A5FA" 
                             fill="#60A5FA" 
                             fillOpacity={0.6}
@@ -197,7 +187,7 @@ const SubscriptionRevenueChart = ({graphData}) => {
                         <Area 
                             type="monotone" 
                             dataKey="Bulk" 
-                            stackId="3" 
+                            stackId="1" 
                             stroke="#1D4ED8" 
                             fill="#1D4ED8" 
                             fillOpacity={0.6}
@@ -205,7 +195,7 @@ const SubscriptionRevenueChart = ({graphData}) => {
                         <Area 
                             type="monotone" 
                             dataKey="Result" 
-                            stackId="4" 
+                            stackId="1" 
                             stroke="#7C3AED" 
                             fill="#7C3AED" 
                             fillOpacity={0.6}
@@ -213,13 +203,18 @@ const SubscriptionRevenueChart = ({graphData}) => {
                         <Area 
                             type="monotone" 
                             dataKey="Assignment" 
-                            stackId="5" 
+                            stackId="1" 
                             stroke="#A855F7" 
                             fill="#A855F7" 
                             fillOpacity={0.6}
                         />
                     </AreaChart>
                 </ResponsiveContainer>
+            </div>
+            
+            {/* Debug info - remove this in production */}
+            <div className="mt-4 text-xs text-gray-500">
+                <p>Current month data: {JSON.stringify(chartData.find(d => d.key === '2025-6'))}</p>
             </div>
         </div>
     );

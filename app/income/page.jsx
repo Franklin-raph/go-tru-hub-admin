@@ -116,7 +116,7 @@ const Income = () => {
                                     <img src="./images/buildings.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-white text-[24px]">{data?.totalOrgan}</p>
+                            <p className="font-[600] text-white text-[24px]">{data?.totalOrgan?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#1E2522] p-3 rounded-[20px]">
@@ -126,7 +126,7 @@ const Income = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-white text-[24px]">{data?.activePlans}</p>
+                            <p className="font-[600] text-white text-[24px]">{data?.activePlans?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#1E2522] p-3 rounded-[20px]">

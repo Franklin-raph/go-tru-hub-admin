@@ -86,7 +86,7 @@ const ManageUserInfo = () => {
             });
 
             const data = await response.json();
-            console.log(data.data);
+            console.log("Summary Data ====> ", data.data);
             setOrgInfo(data.data)
 
         } catch (error) {
@@ -104,6 +104,17 @@ const ManageUserInfo = () => {
         // setArrayOfFeatures(data.data);
         console.log(data);
     }
+
+    // async function getActivePlans() {
+    //     const res = await fetch(`https://go-tru-hub-api.onrender.com/organizations/users-summary/${id}`, {
+    //         headers: {
+    //             Authorization: `Bearer ${Cookies.get("token")}`,
+    //         }
+    //     });
+    //     const data = await res.json();
+    //     // setArrayOfFeatures(data.data);
+    //     console.log(data);
+    // }
 
     useEffect(() => {
         getOrgInfo();
@@ -195,7 +206,7 @@ const ManageUserInfo = () => {
                             </div>
 
                             {/* Documents Section */}
-                            <div className="mt-6 space-y-4">
+                            {/* <div className="mt-6 space-y-4">
                                 <div className="flex items-center space-x-2">
                                     <div className="bg-green-100 p-2 rounded-full">
                                         <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -221,7 +232,7 @@ const ManageUserInfo = () => {
                                     </div>
                                     <FaDownload className="text-gray-500 cursor-pointer" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className="grid grid-cols-5 gap-5 py-5 rounded-[12px]">
@@ -232,7 +243,7 @@ const ManageUserInfo = () => {
                                     <img src="./images/buildings.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalSubscription}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalSubscription?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -242,7 +253,27 @@ const ManageUserInfo = () => {
                                     <img src="./images/card-tick.svg" alt="" />
                                 </div>
                             </div>
-                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalActiveSubscription}</p>
+                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalActiveSubscription?.toLocaleString()}</p>
+                        </div>
+
+                        <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Total subscription</p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/card-tick.svg" alt="" />
+                                </div>
+                            </div>
+                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalSubscription?.toLocaleString()}</p>
+                        </div>
+
+                        <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
+                            <div className="flex items-center justify-between mb-5">
+                                <p className="text-[#4F4F4F] font-[600]">Total Monitor Source</p>
+                                <div className='bg-[#23AEAE] p-2 rounded-full'>
+                                    <img src="./images/card-tick.svg" alt="" />
+                                </div>
+                            </div>
+                            <p className="font-[600] text-text-color text-[24px]">#{orgInfo?.totalMonitorSource?.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-[#F7F7F7] p-3 rounded-[20px]">
@@ -273,6 +304,19 @@ const ManageUserInfo = () => {
                             <p className="font-[600] text-text-color text-[24px]">{orgInfo?.totalStudents}</p>
                         </div>
                     </div>
+
+                    <div className='flex gap-5'>
+                        <div className='w-[100%] shadow-md rounded-[6px] p-[20px] mt-10'>
+                            <p className='text-[#1D1D1D] text-[18px] font-[600] mb-5'>Monitor Source Duration</p>
+                            <div className='w-full'>
+                                Days Remaining: <span className='text-[#0A4DCE] font-[600]'>{orgInfo?.monitorSourceDuration?.daysRemaining} days</span>
+                            </div>
+                            <div className='w-full mt-3'>
+                                End Date: <span className='text-[#0A4DCE] font-[600]'>{ new Date(orgInfo?.monitorSourceDuration?.endDate).toDateString()}</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className='flex gap-5'>
                         <div className='w-[100%] shadow-md rounded-[6px] p-[20px] mt-10'>
                             <p className='text-[#1D1D1D] text-[18px] font-[600] mb-5'>Feature usage metric</p>
