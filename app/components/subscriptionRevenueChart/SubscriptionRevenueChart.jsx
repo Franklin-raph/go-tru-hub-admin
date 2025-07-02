@@ -213,9 +213,9 @@ const SubscriptionRevenueChart = ({graphData}) => {
             </div>
             
             {/* Debug info - remove this in production */}
-            <div className="mt-4 text-xs text-gray-500">
+            {/* <div className="mt-4 text-xs text-gray-500">
                 <p>Current month data: {JSON.stringify(chartData.find(d => d.key === '2025-6'))}</p>
-            </div>
+            </div> */}
         </div>
     );
 }
